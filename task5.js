@@ -18,7 +18,7 @@ function partial(func, arg1, arg2) {
     if (!arguments) return;
     switch(arguments.length) {
       case 1:
-        return func(arguments[0], 5);
+        return func(arguments[0], arg1);
         break;
       case 2:
         return func(arg1, arg2, arguments[0], arguments[1]);
