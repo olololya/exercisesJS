@@ -11,14 +11,21 @@ function sequence(start = 0, step = 1) {
   if (isNaN(parseInt(start))) start = 0;
   if (isNaN(parseInt(step))) step = 0;
 
+  let first_flag = true;
+
   return function() {
-    return start += step;
+    if (first_flag) {
+      first_flag = false;
+      return start;
+    } else {
+      return start += step;
+    };
   };
 };
 
 var generator = sequence(10, 3);
 var generator2 = sequence(7, 1);
-var generator3 = sequence();;
+var generator3 = sequence();
 
 console.log('№1', generator());
 console.log('№1', generator());
