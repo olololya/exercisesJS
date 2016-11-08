@@ -1,11 +1,33 @@
-//Write a JavaScript program to calculate the factorial of a number. 
+/*Функция создания генератора sequence(start, step).
+ Она при вызове возвращает другую функцию-генератор, которая при каждом вызове
+ дает число на 1 больше, и так до бесконечности. Начальное число, с которого
+ начинать отсчет, и шаг, задается при создании генератора. Шаг можно не указывать,
+ тогда он будет равен одному. Начальное значение по умолчанию равно 0.
+ Генераторов можно создать сколько угодно.
+*/
+'use strict';
 
-function factorial(num) {
-  if (num != 1) {
-    return num * factorial(num - 1);
-  } else {
-    return num;
-  }
+function sequence(start = 0, step = 1) {
+  if (isNaN(parseInt(start))) start = 0;
+  if (isNaN(parseInt(step))) step = 0;
+
+  return function() {
+    return start += step;
+  };
 };
 
-console.log( factorial(5) );
+var generator = sequence(10, 3);
+var generator2 = sequence(7, 1);
+var generator3 = sequence();;
+
+console.log('№1', generator());
+console.log('№1', generator());
+
+console.log('№2', generator2());
+
+console.log('№1', generator());
+
+console.log('№2', generator2());
+
+console.log('№3', generator3());
+console.log('№3', generator3());
