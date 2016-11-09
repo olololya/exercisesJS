@@ -8,43 +8,31 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
 
   entry: {
-    main: './main'
+    main: [
+      "webpack-dev-server/client?http://localhost:8080",
+      "webpack/hot/dev-server",
+      './main'
+    ]
   },
 
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
-    filename: '[name].js',
-    library: '[name]'
-  },
-
-  watch: NODE_ENV == 'development',
-  watchOptions: {
-    aggregateTimeout: 100
+    filename: '[name].js'
   },
 
   devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
 
-  resolve: {
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js']
-  },
-
-  resolveLoader: {
-    modulesDirectories: ['node_modules'],
-    moduleTemplates: ['*-loader', '*'],
-    extensions: ['', '.js']
-  },
 
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      NODE_ENV: JSON.stringify(NODE_ENV)
-    })
+      NODE_ENV: JSON.stringify('development')
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
 
   module: {
-
     loaders: [{
       test: /\.js$/,
       include: path.resolve(__dirname, 'src'),
@@ -54,6 +42,12 @@ module.exports = {
         plugins: ['transform-runtime']
       }
     }]
+  },
 
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    contentBase: path.resolve(__dirname, 'public'),
+    hot: true
   }
 };
