@@ -1,0 +1,67 @@
+body {
+  text-align: center;
+}
+
+form {
+  width: 190px;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+form div.input-container {
+  margin-bottom: 5px;
+}
+
+form label,
+form input {
+  display: inline-block;
+}
+
+form label {
+  width: 150px;
+}
+
+form input {
+  width: 25px;
+  padding: 2px 3px;
+  text-align: right;
+}
+
+button {
+  width: 100px;
+  padding: 3px;
+  background-color: lightgray;
+  border: 1px solid gray;
+  transition: all .2s linear ;
+  margin: 5px auto;
+}
+
+button:hover {
+  color: white;
+  background-color: darkgray;
+}
+
+form button {
+  width: 80px;
+}
+
+table {
+  margin: 5px auto;
+}
+
+table td {
+  height: 28px;
+  width: 28px;
+  transition: all .2s linear;
+}
+
+table td.white {
+  background-color: #fff;
+  border: 1px solid black;
+}
+
+table td.black {
+  background-color: #000;
+  border: 1px solid white;
+}
+

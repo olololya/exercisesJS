@@ -1,23 +1,43 @@
 'use strict';
 
-(function createTable(num_row = 5, num_cell = 5) {
+import './reset.css';
+import './main.css';
 
-  let table = document.createElement('table');
-  table.setAttribute('border', '1');
-  table.setAttribute('align', 'center');
-  table.setAttribute('cellspacing', '0');
-  table.setAttribute('border-collapse', 'collapse');
-  table.setAttribute('cols', num_cell);
+(function init() {
+  let input1 = document.getElementById('row');
+  let input2 = document.getElementById('cell');
 
-  for (let i = 0; i < num_row; i++) {
-    let row = table.insertRow(i);
-    for (let j = 0; j < num_cell; j++) {
-      let cell = row.insertCell(j);
-      cell.width = '28px';
-      cell.height = '28px';
-      cell.style.backgroundColor = '#fff';
-    };
-  };
+  let button_clear = document.getElementById('but2');
+  button_clear.addEventListener('click', function() {
+    clearInputs(input1, input2);
+  });
 
-  document.body.appendChild(table);
+  let button_create = document.getElementById('but1');
+  button_create.addEventListener('click', function() {
+    if (input1.value > 15 || input2.value > 15) {
+      alert('Max number of row and cell - 15');
+    } else {
+      require.ensure(['./table'], function (require) {
+        let table = require('./table');
+
+        let row = input1.value;
+        let cell = input2.value;
+
+        if (isNaN(parseInt(row)) || row <= 0) row = undefined;
+        if (isNaN(parseInt(cell)) || cell <= 0) cell = undefined;
+
+        table.create(row, cell);
+
+        button_clear.addEventListener('click', function() {
+          table.clear();
+        });
+      });
+    }
+  });
+
 })();
+
+function clearInputs(inp1, inp2) {
+  inp1.value = '';
+  inp2.value = '';
+};

@@ -32,6 +32,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
 
+  resolveLoaders: {
+    modulesDirectories: ['node_modules'],
+    moduleTemplates: ['*-loader', '*'],
+    extensions: ['', '.js']
+  },
+
   module: {
     loaders: [{
       test: /\.js$/,
@@ -41,6 +47,9 @@ module.exports = {
         presets: ['es2015'],
         plugins: ['transform-runtime']
       }
+    },{
+      test: /\.css$/,
+      loader: 'style!css'
     }]
   },
 
