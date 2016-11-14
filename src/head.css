@@ -1,0 +1,93 @@
+header {
+  border-bottom: 1px solid gray;
+  height: 120px;
+  text-align: center;
+}
+
+form,
+div.colors-container,
+div.flags-container {
+  width: 190px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 20px;
+  height: 100px;
+}
+
+form div.input-container {
+  margin: 10px 0;
+}
+
+form div.button-container {
+  margin-bottom: 5px;
+}
+
+div.colors-container {
+  width: 210px;
+  /*background-color: lightgray;*/
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+}
+
+div.input-container p,
+div.colors-container p:nth-child(1),
+div.flags-container p {
+  font: bold 16px 'Arial';
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+div.colors-container p:nth-child(1),
+div.flags-container p{
+  margin-top: 10px;
+}
+
+div.flags-container p {
+  margin-bottom: 20px;
+}
+
+div.flags-container span {
+  font-size: 20px;
+}
+/*
+div.flags-container {
+  text-align: center;
+}*/
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  margin-right: 3px;
+}
+
+button {
+  width: 100px;
+  padding: 3px;
+  background-color: lightgray;
+  border: 1px solid gray;
+  transition: all .2s linear ;
+  margin: 5px auto;
+}
+
+button:hover {
+  color: white;
+  background-color: darkgray;
+}
+
+div.colors-container  p {
+  font-weight: bold;
+}
+
+div.colors-container  p:nth-child(2) {
+  color: #849dff;
+}
+
+div.colors-container  p:nth-child(3) {
+  color: #ff726b;
+}
+
+div.colors-container  p:nth-child(4) {
+  color: #a741ff;
+}

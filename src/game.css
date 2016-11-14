@@ -1,0 +1,44 @@
+#clicks {
+  text-align: center;
+  font: bold 18px Arial;
+  color: gray;
+}
+
+table {
+  margin: 25px auto;
+  margin-bottom: 10px;
+}
+
+td {
+  height: 28px;
+  width: 28px;
+  transition: all .2s linear;
+  border: 1px solid black;
+  cursor: default;
+  user-select: none;
+}
+
+td.bomb {
+  background-color: #ff726b;
+}
+
+td.close {
+  background-color: lightgray;
+  color: lightgray;
+}
+
+td.flag {
+  background-color: #849dff;
+  color: #849dff;
+}
+
+td.open {
+  background-color: white;
+  color: black;
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.flag-bomb {
+  background-color: #a741ff;
+}
