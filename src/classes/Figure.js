@@ -2,12 +2,13 @@
 
 export default class Figure {
 
-  constructor(id, width_canv, height_canv, color = 'blue', radius = 30,) {
+  constructor(id, width_canv, height_canv, color = 'blue', radius = 30, type = 'circle') {
     this.id = id;
     this.color = color;
     this.radius = radius;
     this.width_canv = width_canv;
     this.height_canv = height_canv;
+    this.type = type;
 
     let max = 1, min = -1;
     this.speed_x = Math.floor(Math.random() * (max - min + 1) + min) || max;
@@ -30,7 +31,4 @@ export default class Figure {
       this.speed_y = -this.speed_y;
     }
   }
-
-
-
 }

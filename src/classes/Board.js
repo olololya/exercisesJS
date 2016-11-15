@@ -1,6 +1,7 @@
 'use strict';
 
-import Figure from './figureClass';
+import Circle from './Circle';
+import Square from './Square';
 
 export default class Board {
 
@@ -24,8 +25,16 @@ export default class Board {
     })(this);
   }
 
-  addFigure() {
-    this.figures.push(new Figure(this.figures.length, this.width, this.height));
+  addFigure(type) {
+    switch(type) {
+      case 'circle':
+        this.figures.push(new Circle(this.figures.length, this.width, this.height));
+        break;
+      case 'square':
+        this.figures.push(new Square(this.figures.length, this.width, this.height));
+        break;
+    }
+
     console.log(this.figures);
   }
 
@@ -41,10 +50,17 @@ export default class Board {
 
     for (let figure of this.figures) {
       this.ctx.fillStyle = figure.color;
-      this.ctx.beginPath();
-      this.ctx.arc(figure.x, figure.y, figure.radius, 0, Math.PI * 2, true);
-      this.ctx.fill();
-      this.ctx.stroke();
+      switch(figure.type) {
+        case 'circle':
+          this.ctx.beginPath();
+          this.ctx.arc(figure.x, figure.y, figure.radius, 0, Math.PI * 2, true);
+          this.ctx.fill();
+          this.ctx.stroke();
+          break;
+        case 'square':
+          this.ctx.fillRect(figure.x, figure.y, figure.radius, figure.radius);
+          break;
+      }
 
       figure.goX();
       figure.goY();
