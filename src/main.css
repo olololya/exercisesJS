@@ -1,7 +1,11 @@
 canvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -300px;
-  margin-top: -250px;
+  margin: 50px;
+}
+
+header {
+  height: 50px;
+}
+
+#container {
+  height: 500px;
 }
