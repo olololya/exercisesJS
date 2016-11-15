@@ -1,6 +1,8 @@
 'use strict';
 
-function draw() {
+import './main.css';
+
+(function() {
   let canvas = document.getElementById('canv');
 
   let ctx = null;
@@ -43,5 +45,5 @@ function draw() {
   }
 
   animation();
-}
+})();
 
