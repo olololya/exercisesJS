@@ -12,25 +12,31 @@ function draw() {
 
   ctx.fillStyle = 'rgb(101, 255, 204)';
 
-  var x = 50;
-  var speed = 1;
+  let radius = 50;
+  let x = (canvas.width / 2) - (radius / 2);
+  let y = (canvas.height / 2) - (radius / 2);
+  let speed_x = 1;
+  let speed_y = 1;
 
   function animation() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
     ctx.beginPath();
-    ctx.arc(x, 70, 50, 0, Math.PI * 2, true);
+    ctx.arc(x, y, radius, 0, Math.PI * 2, true);
     ctx.fill();
     ctx.stroke();
 
-    x += speed;
-    if (x > canvas.width - 50) {
-      speed = -speed;
+    x += speed_x;
+    if (x > canvas.width - radius || x < radius) {
+      speed_x = -speed_x;
     }
-    if (x < 50) {
-      speed = -speed;
+
+    y += speed_y;
+    if (y > canvas.height - radius || y < radius) {
+      speed_y = -speed_y;
     }
+
     setTimeout(animation, 7);
   }
 
