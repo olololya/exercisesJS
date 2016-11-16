@@ -1,5 +1,6 @@
 'use strict';
 
+import './reset.css';
 import './main.css';
 
 import Board from './classes/Board';
@@ -8,38 +9,29 @@ import Board from './classes/Board';
 
   let boards = [];
 
-  let header = document.createElement('header');
-  document.body.appendChild(header);
-
-  let button = document.createElement('button');
-  button.setAttribute('id', 'button-create');
-  button.innerHTML = 'Create board';
-  header.appendChild(button);
+  let button = document.getElementById('button-create');
   button.addEventListener('click', function() {
-    boards.push(new Board(boards.length));
+    let inp_color = document.getElementById('board-color');
+    let inp_width = document.getElementById('board-width');
+    inp_width = parseInt(inp_width.value);
+    if (!isNaN(inp_width)) {
+      if (inp_width < 200 || inp_width > 500) {
+        alert('Error width board! Min = 200, max = 500');
+        return;
+      }
+    }
+    let inp_height = document.getElementById('board-height');
+    inp_height = parseInt(inp_height.value);
+    if (!isNaN(inp_height)) {
+      if (inp_height < 200 || inp_height > 500) {
+        alert('Error height board! Min = 200, max = 500');
+        return;
+      }
+    }
+
+    boards.push(new Board(boards.length, inp_color.value, inp_width, inp_height));
     boards[boards.length - 1].drawRect();
   });
-
-
-
-  let labels = new Array(2);
-  let radios = new Array(2);
-  let label_text = ['circle', 'square'];
-  let id_radios = ['circle', 'square'];
-
-  for (let i = 0; i < labels.length; i++) {
-    radios[i] = document.createElement('input');
-    radios[i].setAttribute('type', 'radio');
-    radios[i].setAttribute('id', id_radios[i]);
-    radios[i].setAttribute('name', 'type-figure');
-    if (i === 0) radios[i].setAttribute('checked', 'true');
-    header.appendChild(radios[i]);
-
-    labels[i] = document.createElement('label');
-    labels[i].setAttribute('for', id_radios[i]);
-    labels[i].innerHTML = label_text[i];
-    header.appendChild(labels[i]);
-  }
 
   let container = document.createElement('div');
   container.setAttribute('id', 'container');
@@ -51,9 +43,20 @@ import Board from './classes/Board';
       let inputs = document.getElementsByTagName('input');
       for (let input of inputs)
           if (input.checked) type = input.id;
+
+      let inp_color = document.getElementById('figure-color');
+      let inp_radius = document.getElementById('figure-radius');
+      inp_radius = parseInt(inp_radius.value);
+      if (!isNaN(inp_radius)) {
+        if (inp_radius < 20 || inp_radius > 100) {
+          alert('Error radius figure! Min = 20, max = 60');
+          return;
+        }
+      }
+
       for (let board of boards) {
         if (board.id == event.target.id) {
-          board.addFigure(type);
+          board.addFigure(type, inp_color.value, inp_radius);
           board.draw();
         }
       }

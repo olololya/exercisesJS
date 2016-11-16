@@ -5,7 +5,7 @@ import Square from './Square';
 
 export default class Board {
 
-  constructor(id, color = 'gray', width = 300, height = 300) {
+  constructor(id, color = 'lightgray', width = 300, height = 300) {
     this.id = id;
     this.color = color;
     this.width = width;
@@ -25,13 +25,13 @@ export default class Board {
     })(this);
   }
 
-  addFigure(type) {
+  addFigure(type, color, radius) {
     switch(type) {
       case 'circle':
-        this.figures.push(new Circle(this.figures.length, this.width, this.height));
+        this.figures.push(new Circle(this.figures.length, this.width, this.height, color, radius));
         break;
       case 'square':
-        this.figures.push(new Square(this.figures.length, this.width, this.height));
+        this.figures.push(new Square(this.figures.length, this.width, this.height, color, radius * 2));
         break;
     }
 
@@ -50,18 +50,18 @@ export default class Board {
 
     for (let figure of this.figures) {
       this.ctx.fillStyle = figure.color;
+      this.ctx.beginPath();
       switch(figure.type) {
         case 'circle':
-          this.ctx.beginPath();
           this.ctx.arc(figure.x, figure.y, figure.radius, 0, Math.PI * 2, true);
-          this.ctx.fill();
-          this.ctx.stroke();
           break;
         case 'square':
           this.ctx.fillRect(figure.x, figure.y, figure.radius, figure.radius);
+          this.ctx.strokeRect(figure.x, figure.y, figure.radius, figure.radius);
           break;
       }
-
+      this.ctx.fill();
+      this.ctx.stroke();
       figure.goX();
       figure.goY();
     }

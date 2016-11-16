@@ -4,6 +4,41 @@
   <meta charset="UTF-8">
 </head>
 <body>
+
+  <header>
+    <div class="board-config">
+      <p>Board config</p>
+      <!-- Width board -->
+      <label for="board-width">Width</label>
+      <input type="text" id="board-width" value="300">
+      <!-- Height board -->
+      <label for="board-height">Height</label>
+      <input type="text" id="board-height" value="300">
+      <!-- Color board -->
+      <label for="board-color">Color</label>
+      <input type="color" id="board-color" value="#f9f5ae">
+    </div>
+
+    <div class="create-container">
+      <button id="button-create">Create board</button>
+    </div>
+
+    <div class="figure-config">
+      <p>Figure config</p>
+      <!-- Type figure -->
+      <input type="radio" id="circle" name="type-figure" checked>
+      <label for="circle">circle</label>
+      <input type="radio" id="square" name="type-figure">
+      <label for="square">square</label><br>
+      <!-- Radius figure -->
+      <label for="figure-radius">Radius</label>
+      <input type="text" id="figure-radius" value="30">
+      <!-- Color figure -->
+      <label for="figure-color">Color</label>
+      <input type="color" id="figure-color" value="#c08dc0">
+    </div>
+  </header>
+
   <script src="main.js"></script>
 </body>
 </html>
