@@ -1,7 +1,13 @@
-'use strict';
 
-import Figure from './Figure';
+var Figure = require('./Figure');
 
-export default class Circle extends Figure {
-
+function Circle(id, width_canv, height_canv, color, radius, type){
+  Figure.apply(this, arguments);
+  this.type = 'circle';
 }
+
+Circle.prototype = Object.create(Figure.prototype);
+Circle.prototype.constructor = Circle;
+
+
+module.exports = Circle;

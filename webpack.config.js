@@ -40,14 +40,6 @@ module.exports = {
 
   module: {
     loaders: [{
-      test: /\.js$/,
-      include: path.resolve(__dirname, 'src'),
-      loader: 'babel',
-      query: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime']
-      }
-    },{
       test: /\.css$/,
       loader: 'style!css'
     }]

@@ -1,18 +1,16 @@
-'use strict';
+var Board = require('./classes/Board');
 
-import './reset.css';
-import './main.css';
-
-import Board from './classes/Board';
+require('./reset.css');
+require('./main.css');
 
 (function() {
 
-  let boards = [];
+  var boards = [];
 
-  let button = document.getElementById('button-create');
+  var button = document.getElementById('button-create');
   button.addEventListener('click', function() {
-    let inp_color = document.getElementById('board-color');
-    let inp_width = document.getElementById('board-width');
+    var inp_color = document.getElementById('board-color');
+    var inp_width = document.getElementById('board-width');
     inp_width = parseInt(inp_width.value);
     if (!isNaN(inp_width)) {
       if (inp_width < 200 || inp_width > 500) {
@@ -20,7 +18,7 @@ import Board from './classes/Board';
         return;
       }
     }
-    let inp_height = document.getElementById('board-height');
+    var inp_height = document.getElementById('board-height');
     inp_height = parseInt(inp_height.value);
     if (!isNaN(inp_height)) {
       if (inp_height < 200 || inp_height > 500) {
@@ -33,19 +31,19 @@ import Board from './classes/Board';
     boards[boards.length - 1].drawRect();
   });
 
-  let container = document.createElement('div');
+  var container = document.createElement('div');
   container.setAttribute('id', 'container');
   document.body.appendChild(container);
 
   container.addEventListener('click', function() {
     if (event.target.tagName === 'CANVAS') {
-      let type = null;
-      let inputs = document.getElementsByTagName('input');
-      for (let input of inputs)
+      var type = null;
+      var inputs = document.getElementsByTagName('input');
+      for (var input of inputs)
           if (input.checked) type = input.id;
 
-      let inp_color = document.getElementById('figure-color');
-      let inp_radius = document.getElementById('figure-radius');
+      var inp_color = document.getElementById('figure-color');
+      var inp_radius = document.getElementById('figure-radius');
       inp_radius = parseInt(inp_radius.value);
       if (!isNaN(inp_radius)) {
         if (inp_radius < 20 || inp_radius > 100) {
@@ -54,7 +52,7 @@ import Board from './classes/Board';
         }
       }
 
-      for (let board of boards) {
+      for (var board of boards) {
         if (board.id == event.target.id) {
           board.addFigure(type, inp_color.value, inp_radius);
           board.draw();
