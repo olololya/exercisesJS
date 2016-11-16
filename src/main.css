@@ -49,6 +49,7 @@ div.figure-config label:nth-last-child(2) {
 
 #container {
   height: 500px;
+  text-align: center;
 }
 
 canvas {
