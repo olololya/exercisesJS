@@ -17,9 +17,11 @@ export default class GameController {
           this.views[0].showBombs();
         }
         if (!this.model.isOpenCell(x, y)) {
+          if (this.model.isFlag(x, y))
+            this.model.delFlag(x, y);
           if (!this.model.isBomb(x, y))
             this.model.openCell(x, y);
-          else this.model.endGame();
+          else this.model.endGame('lose');
           for (let view of this.views)
             view.reload();
         }

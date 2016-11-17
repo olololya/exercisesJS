@@ -46,6 +46,7 @@ export default class WindowView {
     }
   }
 
+
   reload() {
     for (let cell of this.cells) {
       let [x, y] = cell.id.split(' ');
@@ -54,11 +55,13 @@ export default class WindowView {
           cell.classList.add('open');
           cell.classList.remove('close');
         }
-        if (this.model.isBomb(x, y))
-          cell.classList.add('bomb');
+        if (this.model.isBomb(x, y)) {
+          if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
+          else cell.classList.add('bomb');
+        }
         else {
-          if(this.model.numBombsAround(x, y))
-            cell.innerHTML = this.model.numBombsAround(x, y);
+            if(this.model.numBombsAround(x, y))
+              cell.innerHTML = this.model.numBombsAround(x, y);
         }
       } else {
         if (this.model.isFlag(x, y) ) {
@@ -70,8 +73,9 @@ export default class WindowView {
         }
 
       }
-
     }
+    if (this.model.getStatusGame() === 'win') console.log('WIN');
+    if (this.model.getStatusGame() === 'lose') console.log('LOSE');
   }
 
 

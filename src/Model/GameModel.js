@@ -12,6 +12,12 @@ export default class GameModel {
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
     this.flagCells = [];
+
+    this.STATUS_WIN = 'win';
+    this.STATUS_LOSE = 'lose';
+    this.STATUS_PLAYING = 'playing';
+
+    this.statusGame = '';
   }
 
   //GET methods
@@ -20,6 +26,7 @@ export default class GameModel {
   getNumBombs() { return this.numBombs;  }
   getNumClicks() { return this.numClicks;  }
   getNumFlags() { return this.numFreeFlags;  }
+  getStatusGame() { return this.statusGame; }
 
 
   //IS methods
@@ -37,7 +44,15 @@ export default class GameModel {
     for (let i = 0; i < this.flagCells.length; i++)
       if (this.flagCells[i].x == x && this.flagCells[i].y == y) return true;
     return false;
+  }
 
+
+  isWin() {
+    for (let i = 0; i < this.numRows; i++)
+      for (let j = 0; j < this.numCells; j++) {
+        if (this.openCells[i][j] === false && !this.isFlag(i, j)) return;
+      }
+    this.statusGame = this.STATUS_WIN;
   }
 
   numBombsAround(x, y) {
@@ -62,9 +77,12 @@ export default class GameModel {
   openCell(x, y) {
     this.openCells[x][y] = true;
 
-    if (!this.numBombsAround(x, y))
+    if (!this.numBombsAround(x, y) && !this.isFlag(x, y))
       this.openNeighboringCells(x, y);
+
+    if (this.numFreeFlags === 0) this.isWin();
   }
+
 
   openNeighboringCells(x, y) {
     x = parseInt(x);
@@ -86,6 +104,7 @@ export default class GameModel {
       y: y
     });
     this.numFreeFlags--;
+    if (this.numFreeFlags === 0) this.isWin();
   }
 
   delFlag(x, y) {
@@ -106,6 +125,7 @@ export default class GameModel {
         this.openCells[i][j] = false;
       }
     }
+    this.statusGame = this.STATUS_PLAYING;
   }
 
   generateBomb(x, y) {
@@ -136,10 +156,14 @@ export default class GameModel {
     }
   }
 
-  endGame() {
+  endGame(status) {
     for (let i = 0; i < this.numRows; i++)
       for (let j = 0; j < this.numCells; j++)
         if (!this.openCells[i][j]) this.openCells[i][j] = true;
+    if (status === 'lose')
+      this.statusGame = this.STATUS_LOSE;
+    if (status === 'win')
+      this.statusGame = this.STATUS_WIN;
   }
 
 }
