@@ -18,18 +18,14 @@ td {
   user-select: none;
 }
 
-td.bomb {
-  background-color: #ff726b;
+td.flag {
+  background-color: #849dff;
+  color: #849dff;
 }
 
 td.close {
   background-color: lightgray;
   color: lightgray;
-}
-
-td.flag {
-  background-color: #849dff;
-  color: #849dff;
 }
 
 td.open {
@@ -38,6 +34,12 @@ td.open {
   text-align: center;
   vertical-align: middle;
 }
+
+td.bomb {
+  background-color: #ff726b;
+}
+
+
 
 td.flag-bomb {
   background-color: #a741ff;

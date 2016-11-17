@@ -39,8 +39,23 @@ export default class WindowView {
   reload() {
     for (let cell of this.cells) {
       let [x, y] = cell.id.split(' ');
-      if (this.model.isOpenCell(x, y) && !cell.classList.contains('open'))
+      if (this.model.isOpenCell(x, y) && !cell.classList.contains('open')) {
         cell.classList.add('open');
+        cell.classList.remove('close');
+      }
+      if (this.model.isOpenCell(x, y) && this.model.isBomb(x, y))
+        cell.classList.add('bomb');
+    }
+  }
+
+
+
+  //debug
+  showBombs() {
+    for (let cell of this.cells) {
+      let [x, y] = cell.id.split(' ');
+      if (this.model.isBomb(x, y))
+        console.log('bomb', x, y);
     }
   }
 
