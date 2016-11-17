@@ -29,6 +29,19 @@ export default class GameModel {
     return false;
   }
 
+  numBombsAround(x, y) {
+    let num = 0;
+    x = parseInt(x);
+    y = parseInt(y);
+    for (let n = x - 1; n <= x + 1; n++)
+      if (n >= 0 && n < this.numRows)
+        for (let m = y - 1; m <= y + 1; m++)
+          if (m >= 0 && m < this.numCells)
+            if (n == x && m == y) continue;
+            else
+              if (this.isBomb(n, m)) num++;
+    return num;
+  }
 
   //SET methods
   openCell(x, y) {
