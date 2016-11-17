@@ -128,6 +128,19 @@ export default class GameModel {
     this.statusGame = this.STATUS_PLAYING;
   }
 
+  reloadGame(rows, cells, bombs) {
+    this.numRows = rows;
+    this.numCells = cells;
+    this.numBombs = bombs;
+    this.numClicks = 0;
+    this.numFreeFlags = bombs;
+
+    this.openCells = new Array(this.numRows);
+    this.bombCells = [];
+    this.flagCells = [];
+    this.startGame();
+  }
+
   generateBomb(x, y) {
     x = parseInt(x);
     y = parseInt(y);

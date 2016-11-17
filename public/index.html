@@ -5,7 +5,35 @@
   <title>Minesweeper</title>
 </head>
 <body>
-
+  <header>
+    <form action="#">
+      <div class="input-container">
+        <p>Choise config</p>
+        <input type="radio" id="diff-easy" name="diff" checked>
+        <label for="diff-easy">easy</label>
+        <input type="radio" id="diff-normal" name="diff" >
+        <label for="diff-normal">normal</label>
+        <input type="radio" id="diff-hard" name="diff" >
+        <label for="diff-hard">hard</label>
+        <label for="num-views">Num views</label>
+        <input type="text" id="num-views" value="3">
+      </div>
+      <div class="button-container">
+        <button id="button-start">Start game</button>
+      </div>
+    </form>
+    <div class="colors-container">
+      <p>Colors</p>
+      <p>flag</p>
+      <p>bomb</p>
+      <p>flag on bomb (end game)</p>
+    </div>
+    <div class="flags-container">
+      <p>Num free flags</p>
+      <span id="flags">0</span>
+    </div>
+  </header>
+  <div id="container"></div>
   <script src="main.js"></script>
 </body>
 </html>

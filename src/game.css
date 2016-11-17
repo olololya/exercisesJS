@@ -4,6 +4,10 @@
   color: gray;
 }
 
+div#container {
+  text-align: center;
+}
+
 table {
   margin: 25px;
   display: inline-block;
