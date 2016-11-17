@@ -46,19 +46,34 @@ export default class GameModel {
   //SET methods
   openCell(x, y) {
     this.openCells[x][y] = true;
+
+    if (!this.numBombsAround(x, y))
+      this.openNeighboringCells(x, y);
   }
 
-
+  openNeighboringCells(x, y) {
+    x = parseInt(x);
+    y = parseInt(y);
+    for (let n = x - 1; n <= x + 1; n++)
+      if (n >= 0 && n < this.numRows)
+        for (let m = y - 1; m <= y + 1; m++)
+          if (m >= 0 && m < this.numCells)
+            if (n === x && m === y) continue;
+            else
+              if (!this.isOpenCell(n, m) && !this.isBomb(n, m)) {
+                this.openCell(n, m);
+              }
+  }
 
   startGame() {
-    //init openCells and generate bombs
+    //init openCells
     for (let i = 0; i < this.numRows; i++) {
       this.openCells[i] = new Array(this.numCells);
       for (let j = 0; j < this.numCells; j++) {
         this.openCells[i][j] = false;
       }
     }
-
+    //generate bombs
     let bombs = this.numBombs;
     while (bombs > 0) {
       for (let i = 0; i < this.numRows; i++) {
@@ -78,7 +93,6 @@ export default class GameModel {
 
 
     }
-   // console.log(this.bombCells);
 
     function generateChance() {
       let chance = Math.random() * 100;
