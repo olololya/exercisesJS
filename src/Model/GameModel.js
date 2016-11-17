@@ -6,16 +6,17 @@ export default class GameModel {
     this.numRows = rows;
     this.numCells = cells;
     this.numBombs = bombs;
+    this.numClicks = 0;
 
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
-
   }
 
   //GET methods
   getNumRows() { return this.numRows;  }
   getNumCells() { return this.numCells;  }
   getNumBombs() { return this.numBombs;  }
+  getNumClicks() { return this.numClicks;  }
 
 
   //IS methods
@@ -44,6 +45,10 @@ export default class GameModel {
   }
 
   //SET methods
+  setClick() {
+    this.numClicks++;
+  }
+
   openCell(x, y) {
     this.openCells[x][y] = true;
 
@@ -73,12 +78,17 @@ export default class GameModel {
         this.openCells[i][j] = false;
       }
     }
-    //generate bombs
+  }
+
+  generateBomb(x, y) {
+    x = parseInt(x);
+    y = parseInt(y);
     let bombs = this.numBombs;
     while (bombs > 0) {
       for (let i = 0; i < this.numRows; i++) {
         if (bombs === 0) break;
         for (let j = 0; j < this.numCells; j++) {
+          if (i === x && j === y) continue;
           if (generateChance() && !this.isBomb(i , j)) {
             this.bombCells.push({
               x: i,
@@ -89,9 +99,6 @@ export default class GameModel {
           if (bombs === 0) break;
         }
       }
-
-
-
     }
 
     function generateChance() {
@@ -99,7 +106,6 @@ export default class GameModel {
       if (chance <= 5) return true;
       else return false;
     }
-
   }
 
   endGame() {
