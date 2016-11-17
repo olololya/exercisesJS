@@ -7,9 +7,11 @@ export default class GameModel {
     this.numCells = cells;
     this.numBombs = bombs;
     this.numClicks = 0;
+    this.numFreeFlags = bombs;
 
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
+    this.flagCells = [];
   }
 
   //GET methods
@@ -17,6 +19,7 @@ export default class GameModel {
   getNumCells() { return this.numCells;  }
   getNumBombs() { return this.numBombs;  }
   getNumClicks() { return this.numClicks;  }
+  getNumFlags() { return this.numFreeFlags;  }
 
 
   //IS methods
@@ -28,6 +31,13 @@ export default class GameModel {
     for (let i = 0; i < this.bombCells.length; i++)
       if (this.bombCells[i].x == x && this.bombCells[i].y == y) return true;
     return false;
+  }
+
+  isFlag(x, y) {
+    for (let i = 0; i < this.flagCells.length; i++)
+      if (this.flagCells[i].x == x && this.flagCells[i].y == y) return true;
+    return false;
+
   }
 
   numBombsAround(x, y) {
@@ -69,6 +79,24 @@ export default class GameModel {
                 this.openCell(n, m);
               }
   }
+
+  setFlag(x, y) {
+    this.flagCells.push({
+      x: x,
+      y: y
+    });
+    this.numFreeFlags--;
+  }
+
+  delFlag(x, y) {
+    let ind = 0;
+    for (let i = 0; i < this.flagCells.length; i++)
+      if (this.flagCells[i].x == x && this.flagCells[i].y == y) ind = i;
+
+    this.flagCells.splice(ind, 1);
+    this.numFreeFlags++;
+  }
+
 
   startGame() {
     //init openCells

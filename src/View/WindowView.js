@@ -36,6 +36,16 @@ export default class WindowView {
     }
   }
 
+  setContextmenuClickCell(func) {
+    this.table.oncontextmenu = function() {
+      event.preventDefault();
+      if (event.target.tagName == 'TD') {
+        let [x, y] = event.target.id.split(' ');
+        func(x, y);
+      }
+    }
+  }
+
   reload() {
     for (let cell of this.cells) {
       let [x, y] = cell.id.split(' ');
@@ -50,6 +60,15 @@ export default class WindowView {
           if(this.model.numBombsAround(x, y))
             cell.innerHTML = this.model.numBombsAround(x, y);
         }
+      } else {
+        if (this.model.isFlag(x, y) ) {
+          if (!cell.classList.contains('flag'))
+            cell.classList.add('flag')
+        } else {
+          if (cell.classList.contains('flag'))
+            cell.classList.remove('flag')
+        }
+
       }
 
     }

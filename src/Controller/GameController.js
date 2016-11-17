@@ -9,7 +9,8 @@ export default class GameController {
   }
 
   init() {
-    for (let i = 0; i < this.views.length; i++)
+    for (let i = 0; i < this.views.length; i++) {
+      //onclick
       this.views[i].setClickCell((x, y) => {
         if (this.model.getNumClicks() == 0) {
           this.model.generateBomb(x, y);
@@ -24,6 +25,19 @@ export default class GameController {
         }
         this.model.setClick();
       });
+      //oncontextmenu
+      this.views[i].setContextmenuClickCell((x, y) => {
+        if (this.model.getNumClicks() == 0) return;
+        if (this.model.isFlag(x, y)) this.model.delFlag(x, y);
+        else {
+          if (this.model.getNumFlags() == 0) return;
+          else this.model.setFlag(x, y);
+        }
+
+        for (let view of this.views)
+          view.reload();
+      });
+    }
 
     this.model.startGame();
     for (let view of this.views)
