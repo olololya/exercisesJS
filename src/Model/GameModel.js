@@ -1,5 +1,8 @@
 'use strict';
 
+import CellChangeEvent from '../Event/CellChangeEvent.js';
+import StatusChangeEvent from '../Event/StatusChangeEvent.js';
+
 export default class GameModel {
 
   constructor(rows, cells, bombs) {
@@ -79,8 +82,9 @@ export default class GameModel {
 
   openCell(x, y) {
     this.openCells[x][y] = true;
-    if (this.statusGame === this.STATUS_PLAYING)
-      this.dispatchEvent({ type: 'openCell' });
+
+    let event = new CellChangeEvent(x, y);
+    this.dispatchEvent(event);
 
     if (!this.numBombsAround(x, y) && !this.isFlag(x, y))
       this.openNeighboringCells(x, y);
@@ -97,7 +101,7 @@ export default class GameModel {
           if (m >= 0 && m < this.numCells)
             if (n === x && m === y) continue;
             else
-              if (!this.isOpenCell(n, m) && !this.isBomb(n, m)) {
+              if (!this.isOpenCell(n, m) && !this.isBomb(n, m) && !this.isFlag(n, m)) {
                 this.openCell(n, m);
               }
   }
@@ -108,7 +112,9 @@ export default class GameModel {
       y: y
     });
     this.numFreeFlags--;
-    this.dispatchEvent({ type: 'setFlag' });
+
+    let event = new CellChangeEvent(x, y);
+    this.dispatchEvent(event);
     if (this.numFreeFlags === 0) this.isWin();
   }
 
@@ -119,7 +125,8 @@ export default class GameModel {
 
     this.flagCells.splice(ind, 1);
     this.numFreeFlags++;
-    this.dispatchEvent({ type: 'delFlag' });
+    let event = new CellChangeEvent(x, y);
+    this.dispatchEvent(event);
   }
 
 
@@ -132,9 +139,9 @@ export default class GameModel {
       }
     }
     this.statusGame = this.STATUS_PLAYING;
-    console.log(this.listeners);
 
-    this.dispatchEvent({ type: 'startGame' });
+    let event = new StatusChangeEvent(this.statusGame);
+    this.dispatchEvent(event);
   }
 
   reloadGame(rows, cells, bombs) {
@@ -188,7 +195,8 @@ export default class GameModel {
     for (let i = 0; i < this.numRows; i++)
       for (let j = 0; j < this.numCells; j++)
         if (!this.openCells[i][j]) this.openCells[i][j] = true;
-    this.dispatchEvent({ type: 'endGame' });
+    let event = new StatusChangeEvent(this.statusGame);
+    this.dispatchEvent(event);
   }
 
   addEventListener(type, listener) {

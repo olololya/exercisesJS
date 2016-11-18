@@ -14,24 +14,78 @@ export default class WindowView {
   }
 
   attach() {
-    let func = this.reload.bind(this);
-    this.model.addEventListener('openCell', func);
-    this.model.addEventListener('setFlag', func);
-    this.model.addEventListener('delFlag', func);
-    this.model.addEventListener('startGame', func);
-    this.model.addEventListener('endGame', func);
+    let func1 = this.cellChange.bind(this);
+    this.model.addEventListener('cellChange', func1);
+    let func2 = this.statusChange.bind(this);
+    this.model.addEventListener('statusChange', func2);
   }
+
+
+  statusChange(event) {
+    switch(event.status) {
+      case 'win':
+        this.span.innerHTML = 'YOU WIN';
+        break;
+      case 'lose':
+        this.span.innerHTML = 'YOU LOSE';
+        for (let i = 0; i < this.model.getNumRows(); i++)
+          for (let j = 0; j < this.model.getNumRows(); j++)
+            this.updateCell(i, j);
+        break;
+      case 'playing':
+        this.span.innerHTML = this.model.getNumFlags();
+        break;
+    }
+  }
+
+  cellChange(event) {
+    let x = event.x;
+    let y = event.y;
+    this.updateCell(x, y);
+  }
+
+  updateCell(x, y) {
+    let cell;
+    for (cell of this.cells) {
+      let [i, j] = cell.id.split(' ');
+      if (i == x && j == y) break;
+    }
+    if (this.model.isOpenCell(x, y)) {
+      if (!cell.classList.contains('open')) {
+        cell.classList.add('open');
+        cell.classList.remove('close');
+      }
+      if (this.model.isBomb(x, y)) {
+        if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
+        else cell.classList.add('bomb');
+      }
+      else {
+        if (this.model.numBombsAround(x, y))
+          cell.innerHTML = this.model.numBombsAround(x, y);
+      }
+    } else {
+      if (this.model.isFlag(x, y)) {
+        if (!cell.classList.contains('flag'))
+          cell.classList.add('flag')
+      } else {
+        if (cell.classList.contains('flag'))
+          cell.classList.remove('flag')
+      }
+      this.span.innerHTML = this.model.getNumFlags();
+    }
+  }
+
 
   setClickCell(func) {
     this.table.onclick = () => {
       if (event.target.tagName == 'TD') {
         let [x, y] = event.target.id.split(' ');
         func(x, y);
-        if (this.model.getStatusGame() === 'playing')
-          this.span.innerHTML = this.model.getNumFlags();
       }
     }
   }
+
+
 
 
   setContextmenuClickCell(func) {
@@ -40,12 +94,12 @@ export default class WindowView {
       if (event.target.tagName == 'TD') {
         let [x, y] = event.target.id.split(' ');
         func(x, y);
-        this.span.innerHTML = this.model.getNumFlags();
+        //this.span.innerHTML = this.model.getNumFlags();
       }
     }
   }
 
-  reload() {
+  /*reload() {
     for (let cell of this.cells) {
       let [x, y] = cell.id.split(' ');
       if (this.model.isOpenCell(x, y)) {
@@ -78,7 +132,10 @@ export default class WindowView {
     if (this.model.getStatusGame() === 'lose') {
       this.span.innerHTML = 'YOU LOSE';
     }
-  }
+  }*/
+
+
+
 
   deleteTable() {
     this.container.removeChild(this.table);
