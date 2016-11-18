@@ -1,12 +1,15 @@
 'use strict';
 
 import WindowView from '../View/WindowView.js';
+import OpenCommand from '../Command/OpenCommand.js';
+import FlagCommand from '../Command/FlagCommand.js';
 
 export default class GameController {
 
   constructor(model, views) {
     this.model = model;
     this.views = views;
+    this.history = null;
   }
 
   init() {
@@ -28,7 +31,13 @@ export default class GameController {
       this.model.startGame();
       this.initEvents();
     };
+
+    let cancel = document.getElementById('button-cancel');
+    cancel.onclick = () => {
+      this.history.cancel();
+    }
   }
+
 
 
   initEvents() {
@@ -42,20 +51,25 @@ export default class GameController {
         if (!this.model.isOpenCell(x, y)) {
           if (this.model.isFlag(x, y))
             this.model.delFlag(x, y);
-          if (!this.model.isBomb(x, y))
-            this.model.openCell(x, y);
-          else this.model.endGame('lose');
+          this.history = new OpenCommand(this.model, x, y);
+          this.history.execute();
+          if (this.model.isBomb(x, y))
+            this.model.endGame('lose');
         }
         this.model.setClick();
+
       });
       //oncontextmenu cell
       this.views[i].setContextmenuClickCell((x, y) => {
         if (this.model.getNumClicks() == 0) return;
-        if (this.model.isFlag(x, y)) this.model.delFlag(x, y);
+        if (this.model.isFlag(x, y)) {
+          this.history = new FlagCommand(this.model, x, y, 'del');
+        }
         else {
           if (this.model.getNumFlags() == 0) return;
-          else this.model.setFlag(x, y);
+          else this.history = new FlagCommand(this.model, x, y, 'set');
         }
+        this.history.execute();
       });
     }
   }

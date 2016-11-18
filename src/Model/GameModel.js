@@ -59,6 +59,7 @@ export default class GameModel {
         if (this.openCells[i][j] === false && !this.isFlag(i, j)) return;
       }
     this.statusGame = this.STATUS_WIN;
+    this.endGame('win');
   }
 
   numBombsAround(x, y) {
@@ -83,7 +84,7 @@ export default class GameModel {
   openCell(x, y) {
     this.openCells[x][y] = true;
 
-    let event = new CellChangeEvent(x, y);
+    let event = new CellChangeEvent(x, y, 'open');
     this.dispatchEvent(event);
 
     if (!this.numBombsAround(x, y) && !this.isFlag(x, y))
@@ -91,6 +92,14 @@ export default class GameModel {
 
     if (this.numFreeFlags === 0) this.isWin();
   }
+
+  closeCell(x, y) {
+    this.openCells[x][y] = false;
+
+    let event = new CellChangeEvent(x, y, 'close');
+    this.dispatchEvent(event);
+  }
+
 
   openNeighboringCells(x, y) {
     x = parseInt(x);
@@ -107,13 +116,14 @@ export default class GameModel {
   }
 
   setFlag(x, y) {
+    if (this.isOpenCell(x, y)) return;
     this.flagCells.push({
       x: x,
       y: y
     });
     this.numFreeFlags--;
 
-    let event = new CellChangeEvent(x, y);
+    let event = new CellChangeEvent(x, y, 'setFlag');
     this.dispatchEvent(event);
     if (this.numFreeFlags === 0) this.isWin();
   }
@@ -125,7 +135,7 @@ export default class GameModel {
 
     this.flagCells.splice(ind, 1);
     this.numFreeFlags++;
-    let event = new CellChangeEvent(x, y);
+    let event = new CellChangeEvent(x, y, 'delFlag');
     this.dispatchEvent(event);
   }
 
@@ -194,7 +204,7 @@ export default class GameModel {
 
     for (let i = 0; i < this.numRows; i++)
       for (let j = 0; j < this.numCells; j++)
-        if (!this.openCells[i][j]) this.openCells[i][j] = true;
+        if (!this.isOpenCell(i, j)) this.openCell(i, j);
     let event = new StatusChangeEvent(this.statusGame);
     this.dispatchEvent(event);
   }

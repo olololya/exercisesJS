@@ -39,40 +39,50 @@ export default class WindowView {
   }
 
   cellChange(event) {
-    let x = event.x;
-    let y = event.y;
-    this.updateCell(x, y);
+    this.updateCell(event.x, event.y, event.action);
   }
 
-  updateCell(x, y) {
+  updateCell(x, y, action) {
     let cell;
     for (cell of this.cells) {
       let [i, j] = cell.id.split(' ');
       if (i == x && j == y) break;
     }
-    if (this.model.isOpenCell(x, y)) {
-      if (!cell.classList.contains('open')) {
-        cell.classList.add('open');
-        cell.classList.remove('close');
-      }
-      if (this.model.isBomb(x, y)) {
-        if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
-        else cell.classList.add('bomb');
-      }
-      else {
-        if (this.model.numBombsAround(x, y))
-          cell.innerHTML = this.model.numBombsAround(x, y);
-      }
-    } else {
-      if (this.model.isFlag(x, y)) {
+    switch(action) {
+      case 'open':
+          if (!cell.classList.contains('open')) {
+            cell.classList.add('open');
+            cell.classList.remove('close');
+          }
+          if (this.model.isBomb(x, y)) {
+            if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
+            else cell.classList.add('bomb');
+          }
+          else {
+            if (this.model.numBombsAround(x, y))
+              cell.innerHTML = this.model.numBombsAround(x, y);
+          }
+        break;
+      case 'close':
+        if (this.model.isBomb(x, y)) cell.classList.remove('bomb');
+        if (this.model.isFlag(x, y)) {
+          if (cell.classList.contains('flag-bomb')) {
+            cell.classList.remove('flag-bomb');
+          }
+        }
+        cell.classList.remove('open');
+        cell.classList.add('close');
+        break;
+      case 'setFlag':
         if (!cell.classList.contains('flag'))
-          cell.classList.add('flag')
-      } else {
+          cell.classList.add('flag');
+        break;
+      case 'delFlag':
         if (cell.classList.contains('flag'))
-          cell.classList.remove('flag')
-      }
-      this.span.innerHTML = this.model.getNumFlags();
+          cell.classList.remove('flag');
+        break;
     }
+      this.span.innerHTML = this.model.getNumFlags();
   }
 
 
