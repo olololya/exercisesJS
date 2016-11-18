@@ -18,6 +18,9 @@ export default class GameModel {
     this.STATUS_PLAYING = 'playing';
 
     this.statusGame = '';
+
+    this.listeners = {};
+    this.numListen = 0;
   }
 
   //GET methods
@@ -76,13 +79,14 @@ export default class GameModel {
 
   openCell(x, y) {
     this.openCells[x][y] = true;
+    if (this.statusGame === this.STATUS_PLAYING)
+      this.dispatchEvent({ type: 'openCell' });
 
     if (!this.numBombsAround(x, y) && !this.isFlag(x, y))
       this.openNeighboringCells(x, y);
 
     if (this.numFreeFlags === 0) this.isWin();
   }
-
 
   openNeighboringCells(x, y) {
     x = parseInt(x);
@@ -104,6 +108,7 @@ export default class GameModel {
       y: y
     });
     this.numFreeFlags--;
+    this.dispatchEvent({ type: 'setFlag' });
     if (this.numFreeFlags === 0) this.isWin();
   }
 
@@ -114,6 +119,7 @@ export default class GameModel {
 
     this.flagCells.splice(ind, 1);
     this.numFreeFlags++;
+    this.dispatchEvent({ type: 'delFlag' });
   }
 
 
@@ -126,6 +132,9 @@ export default class GameModel {
       }
     }
     this.statusGame = this.STATUS_PLAYING;
+    console.log(this.listeners);
+
+    this.dispatchEvent({ type: 'startGame' });
   }
 
   reloadGame(rows, cells, bombs) {
@@ -138,7 +147,8 @@ export default class GameModel {
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
     this.flagCells = [];
-    this.startGame();
+
+    this.listeners = {};
   }
 
   generateBomb(x, y) {
@@ -170,13 +180,39 @@ export default class GameModel {
   }
 
   endGame(status) {
-    for (let i = 0; i < this.numRows; i++)
-      for (let j = 0; j < this.numCells; j++)
-        if (!this.openCells[i][j]) this.openCells[i][j] = true;
     if (status === 'lose')
       this.statusGame = this.STATUS_LOSE;
     if (status === 'win')
       this.statusGame = this.STATUS_WIN;
+
+    for (let i = 0; i < this.numRows; i++)
+      for (let j = 0; j < this.numCells; j++)
+        if (!this.openCells[i][j]) this.openCells[i][j] = true;
+    this.dispatchEvent({ type: 'endGame' });
+  }
+
+  addEventListener(type, listener) {
+    if (this.listeners[type] === undefined)
+      this.listeners[type] = [];
+    if (this.listeners[type].indexOf(listener) === - 1 ) {
+      this.listeners[type].push(listener);
+      this.numListen++;
+    }
+  }
+
+  dispatchEvent(event) {
+    var listenerArray = this.listeners[event.type];
+    if (listenerArray) {
+      event.target = this;
+      let array = [], i = 0;
+      let length = listenerArray.length;
+      for (let i = 0; i < length; i++ ) {
+        array[i] = listenerArray[i];
+      }
+      for (let i = 0; i < length; i++ ) {
+        array[i].call(this, event);
+      }
+    }
   }
 
 }

@@ -10,33 +10,26 @@ export default class GameController {
   }
 
   init() {
+    this.model.startGame();
+    this.initEvents();
+
     let buttonStart = document.getElementById('button-start');
     buttonStart.onclick = () => {
-      this.model.reloadGame(getDifficult().row, getDifficult().cell, getDifficult().bombs);
       let num = getNumViews();
-      if (num && num != this.views.length) {
-        let i = Math.abs(num - this.views.length);
-        if (num < this.views.length) {
-          while (i != 0) {
-            this.views[this.views.length - 1].deleteTable();
-            this.views.pop();
-            i--;
-          }
-        } else {
-          while (i != 0) {
-            this.views.push(new WindowView(this.model));
-            i--;
-          }
-        }
+      let length = this.views.length;
+      for (let i = 0; i < length; i++) {
+        this.views[0].deleteTable();
+        this.views.shift();
       }
-      this.reloadViews(true);
+      this.model.reloadGame(getDifficult().row, getDifficult().cell, getDifficult().bombs);
+      for (let i = 0; i < num; i++) {
+        this.views[i] = new WindowView(this.model);
+      }
+      this.model.startGame();
       this.initEvents();
     };
-
-    this.initEvents();
-    this.model.startGame();
-
   }
+
 
   initEvents() {
     for (let i = 0; i < this.views.length; i++) {
@@ -52,7 +45,6 @@ export default class GameController {
           if (!this.model.isBomb(x, y))
             this.model.openCell(x, y);
           else this.model.endGame('lose');
-          this.reloadViews();
         }
         this.model.setClick();
       });
@@ -64,8 +56,6 @@ export default class GameController {
           if (this.model.getNumFlags() == 0) return;
           else this.model.setFlag(x, y);
         }
-
-        this.reloadViews();
       });
     }
   }

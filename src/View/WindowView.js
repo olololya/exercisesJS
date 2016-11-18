@@ -9,7 +9,17 @@ export default class WindowView {
     this.container = document.getElementById('container');
     this.cells = [];
     this.span = document.getElementById('flags');
+    this.attach();
     this.createTable();
+  }
+
+  attach() {
+    let func = this.reload.bind(this);
+    this.model.addEventListener('openCell', func);
+    this.model.addEventListener('setFlag', func);
+    this.model.addEventListener('delFlag', func);
+    this.model.addEventListener('startGame', func);
+    this.model.addEventListener('endGame', func);
   }
 
   setClickCell(func) {
@@ -17,10 +27,12 @@ export default class WindowView {
       if (event.target.tagName == 'TD') {
         let [x, y] = event.target.id.split(' ');
         func(x, y);
-        this.span.innerHTML = this.model.getNumFlags();
+        if (this.model.getStatusGame() === 'playing')
+          this.span.innerHTML = this.model.getNumFlags();
       }
     }
   }
+
 
   setContextmenuClickCell(func) {
     this.table.oncontextmenu = () => {
@@ -33,45 +45,44 @@ export default class WindowView {
     }
   }
 
-  reload(flag) {
-    if (flag) {
-      this.cells = [];
-      this.container.removeChild(this.table);
-      this.createTable();
-    } else {
-      for (let cell of this.cells) {
-        let [x, y] = cell.id.split(' ');
-        if (this.model.isOpenCell(x, y)) {
-          if (!cell.classList.contains('open')) {
-            cell.classList.add('open');
-            cell.classList.remove('close');
-          }
-          if (this.model.isBomb(x, y)) {
-            if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
-            else cell.classList.add('bomb');
-          }
-          else {
-            if (this.model.numBombsAround(x, y))
-              cell.innerHTML = this.model.numBombsAround(x, y);
-          }
-        } else {
-          if (this.model.isFlag(x, y)) {
-            if (!cell.classList.contains('flag'))
-              cell.classList.add('flag')
-          } else {
-            if (cell.classList.contains('flag'))
-              cell.classList.remove('flag')
-          }
-
+  reload() {
+    for (let cell of this.cells) {
+      let [x, y] = cell.id.split(' ');
+      if (this.model.isOpenCell(x, y)) {
+        if (!cell.classList.contains('open')) {
+          cell.classList.add('open');
+          cell.classList.remove('close');
         }
+        if (this.model.isBomb(x, y)) {
+          if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
+          else cell.classList.add('bomb');
+        }
+        else {
+          if (this.model.numBombsAround(x, y))
+            cell.innerHTML = this.model.numBombsAround(x, y);
+        }
+      } else {
+        if (this.model.isFlag(x, y)) {
+          if (!cell.classList.contains('flag'))
+            cell.classList.add('flag')
+        } else {
+          if (cell.classList.contains('flag'))
+            cell.classList.remove('flag')
+        }
+
       }
-      if (this.model.getStatusGame() === 'win') this.span.innerHTML = 'YOU WIN';
-      if (this.model.getStatusGame() === 'lose') this.span.innerHTML = 'YOU LOSE';
+    }
+    if (this.model.getStatusGame() === 'win') {
+      this.span.innerHTML = 'YOU WIN';
+    }
+    if (this.model.getStatusGame() === 'lose') {
+      this.span.innerHTML = 'YOU LOSE';
     }
   }
 
   deleteTable() {
     this.container.removeChild(this.table);
+    this.table = undefined;
   }
 
   createTable() {
