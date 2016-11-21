@@ -28,9 +28,6 @@ export default class WindowView {
         break;
       case 'lose':
         this.span.innerHTML = 'YOU LOSE';
-        for (let i = 0; i < this.model.getNumRows(); i++)
-          for (let j = 0; j < this.model.getNumRows(); j++)
-            this.updateCell(i, j);
         break;
       case 'playing':
         this.span.innerHTML = this.model.getNumFlags();
@@ -64,22 +61,22 @@ export default class WindowView {
           }
         break;
       case 'close':
-        if (this.model.isBomb(x, y)) cell.classList.remove('bomb');
-        if (this.model.isFlag(x, y)) {
-          if (cell.classList.contains('flag-bomb')) {
-            cell.classList.remove('flag-bomb');
-          }
-        }
+        cell.classList.remove('bomb');
+        cell.classList.remove('flag');
+        cell.classList.remove('flag-bomb');
         cell.classList.remove('open');
         cell.classList.add('close');
+        cell.innerHTML = '';
         break;
       case 'setFlag':
-        if (!cell.classList.contains('flag'))
+        if (!cell.classList.contains('flag')) {
           cell.classList.add('flag');
+        }
         break;
       case 'delFlag':
-        if (cell.classList.contains('flag'))
+        if (cell.classList.contains('flag')) {
           cell.classList.remove('flag');
+        }
         break;
     }
       this.span.innerHTML = this.model.getNumFlags();
@@ -95,57 +92,15 @@ export default class WindowView {
     }
   }
 
-
-
-
   setContextmenuClickCell(func) {
     this.table.oncontextmenu = () => {
       event.preventDefault();
       if (event.target.tagName == 'TD') {
         let [x, y] = event.target.id.split(' ');
         func(x, y);
-        //this.span.innerHTML = this.model.getNumFlags();
       }
     }
   }
-
-  /*reload() {
-    for (let cell of this.cells) {
-      let [x, y] = cell.id.split(' ');
-      if (this.model.isOpenCell(x, y)) {
-        if (!cell.classList.contains('open')) {
-          cell.classList.add('open');
-          cell.classList.remove('close');
-        }
-        if (this.model.isBomb(x, y)) {
-          if (this.model.isFlag(x, y)) cell.classList.add('flag-bomb');
-          else cell.classList.add('bomb');
-        }
-        else {
-          if (this.model.numBombsAround(x, y))
-            cell.innerHTML = this.model.numBombsAround(x, y);
-        }
-      } else {
-        if (this.model.isFlag(x, y)) {
-          if (!cell.classList.contains('flag'))
-            cell.classList.add('flag')
-        } else {
-          if (cell.classList.contains('flag'))
-            cell.classList.remove('flag')
-        }
-
-      }
-    }
-    if (this.model.getStatusGame() === 'win') {
-      this.span.innerHTML = 'YOU WIN';
-    }
-    if (this.model.getStatusGame() === 'lose') {
-      this.span.innerHTML = 'YOU LOSE';
-    }
-  }*/
-
-
-
 
   deleteTable() {
     this.container.removeChild(this.table);
@@ -170,7 +125,6 @@ export default class WindowView {
     this.container.appendChild(this.table);
     this.span.innerHTML = this.model.getNumFlags();
   }
-
 
   //debug
   showBombs() {

@@ -5,22 +5,28 @@ import StatusChangeEvent from '../Event/StatusChangeEvent.js';
 
 export default class GameModel {
 
-  constructor(rows, cells, bombs) {
-    this.numRows = rows;
-    this.numCells = cells;
-    this.numBombs = bombs;
+  constructor(diff) {
+    this.STATUS_WIN = 'win';
+    this.STATUS_LOSE = 'lose';
+    this.STATUS_PLAYING = 'playing';
+    this.statusGame = '';
+
+    this.DIFF_EASY = {row: 10, cell: 10, bombs: 10};
+    this.DIFF_NORMAL = {row: 15, cell: 15, bombs: 30};
+    this.DIFF_HARD = {row: 15, cell: 25, bombs: 50};
+    this.difficult = {};
+
+    this.setDifficult(diff);
+
+    this.numRows = this.difficult.row;
+    this.numCells = this.difficult.cell;
+    this.numBombs = this.difficult.bombs;
     this.numClicks = 0;
-    this.numFreeFlags = bombs;
+    this.numFreeFlags = this.difficult.bombs;
 
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
     this.flagCells = [];
-
-    this.STATUS_WIN = 'win';
-    this.STATUS_LOSE = 'lose';
-    this.STATUS_PLAYING = 'playing';
-
-    this.statusGame = '';
 
     this.listeners = {};
     this.numListen = 0;
@@ -33,7 +39,7 @@ export default class GameModel {
   getNumClicks() { return this.numClicks;  }
   getNumFlags() { return this.numFreeFlags;  }
   getStatusGame() { return this.statusGame; }
-
+  getDifficult() { return this.difficult; }
 
   //IS methods
   isOpenCell(x, y) {
@@ -51,7 +57,6 @@ export default class GameModel {
       if (this.flagCells[i].x == x && this.flagCells[i].y == y) return true;
     return false;
   }
-
 
   isWin() {
     for (let i = 0; i < this.numRows; i++)
@@ -81,6 +86,20 @@ export default class GameModel {
     this.numClicks++;
   }
 
+  setDifficult(diff) {
+    switch(diff) {
+      case 'easy':
+        this.difficult = this.DIFF_EASY;
+        break;
+      case 'normal':
+        this.difficult = this.DIFF_NORMAL;
+        break;
+      case 'hard':
+        this.difficult = this.DIFF_HARD;
+        break;
+    }
+  }
+
   openCell(x, y) {
     this.openCells[x][y] = true;
 
@@ -99,7 +118,6 @@ export default class GameModel {
     let event = new CellChangeEvent(x, y, 'close');
     this.dispatchEvent(event);
   }
-
 
   openNeighboringCells(x, y) {
     x = parseInt(x);
@@ -139,13 +157,11 @@ export default class GameModel {
     this.dispatchEvent(event);
   }
 
-
   startGame() {
-    //init openCells
     for (let i = 0; i < this.numRows; i++) {
       this.openCells[i] = new Array(this.numCells);
       for (let j = 0; j < this.numCells; j++) {
-        this.openCells[i][j] = false;
+        this.closeCell(i, j);
       }
     }
     this.statusGame = this.STATUS_PLAYING;
@@ -154,18 +170,18 @@ export default class GameModel {
     this.dispatchEvent(event);
   }
 
-  reloadGame(rows, cells, bombs) {
-    this.numRows = rows;
-    this.numCells = cells;
-    this.numBombs = bombs;
+  reloadGame(diff) {
+    this.setDifficult(diff);
+
+    this.numRows = this.difficult.row;
+    this.numCells = this.difficult.cell;
+    this.numBombs = this.difficult.bombs;
     this.numClicks = 0;
-    this.numFreeFlags = bombs;
+    this.numFreeFlags = this.difficult.bombs;
 
     this.openCells = new Array(this.numRows);
     this.bombCells = [];
     this.flagCells = [];
-
-    this.listeners = {};
   }
 
   generateBomb(x, y) {
@@ -219,7 +235,7 @@ export default class GameModel {
   }
 
   dispatchEvent(event) {
-    var listenerArray = this.listeners[event.type];
+    let listenerArray = this.listeners[event.type];
     if (listenerArray) {
       event.target = this;
       let array = [], i = 0;

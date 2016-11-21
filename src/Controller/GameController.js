@@ -24,7 +24,7 @@ export default class GameController {
         this.views[0].deleteTable();
         this.views.shift();
       }
-      this.model.reloadGame(getDifficult().row, getDifficult().cell, getDifficult().bombs);
+      this.model.reloadGame(getDifficult());
       for (let i = 0; i < num; i++) {
         this.views[i] = new WindowView(this.model);
       }
@@ -34,11 +34,10 @@ export default class GameController {
 
     let cancel = document.getElementById('button-cancel');
     cancel.onclick = () => {
-      this.history.cancel();
+      if (this.model.getNumClicks() != 0)
+        this.history.cancel();
     }
   }
-
-
 
   initEvents() {
     for (let i = 0; i < this.views.length; i++) {
@@ -46,17 +45,18 @@ export default class GameController {
       this.views[i].setClickCell((x, y) => {
         if (this.model.getNumClicks() == 0) {
           this.model.generateBomb(x, y);
-          this.views[0].showBombs();
+          //this.views[0].showBombs();
         }
         if (!this.model.isOpenCell(x, y)) {
           if (this.model.isFlag(x, y))
-            this.model.delFlag(x, y);
+            this.history = new FlagCommand(this.model, x, y, 'del');
           this.history = new OpenCommand(this.model, x, y);
           this.history.execute();
           if (this.model.isBomb(x, y))
             this.model.endGame('lose');
+          this.model.setClick();
+          return `Open cell ${x} ${y}`;
         }
-        this.model.setClick();
 
       });
       //oncontextmenu cell
@@ -73,19 +73,10 @@ export default class GameController {
       });
     }
   }
-
-  reloadViews(flag) {
-    for (let i = 0; i < this.views.length; i++)
-      this.views[i].reload(flag);
-  }
 }
 
 function getDifficult() {
-  let diff = [
-    { row: 10, cell: 10, bombs: 10 },  //easy
-    { row: 15, cell: 15, bombs: 30 },  //normal
-    { row: 15, cell: 25, bombs: 50 }   //hard
-  ];
+  let diff = ['easy', 'normal', 'hard'];
   let inputs = document.getElementsByTagName('input');
   for (let i = 0; i < inputs.length; i++)
     if (inputs[i])
@@ -96,6 +87,6 @@ function getDifficult() {
 
 function getNumViews() {
   let num = document.getElementById('num-views').value;
-  if (num > 0 && num < 11) return num;
+  if (num > 0 && num < 10) return num;
   return false;
 }

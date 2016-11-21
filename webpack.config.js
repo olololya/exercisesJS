@@ -18,7 +18,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
-    filename: '[name].js'
+    filename: '[name].js',
+    library: '[name]'
   },
 
   devtool: NODE_ENV == 'development' ? 'source-map' : null,
