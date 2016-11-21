@@ -26,6 +26,7 @@ export default class GameConsoleController {
   }
 
   open(y, x) {
+    if (this.model.getStatusGame() !== 'playing') throw new Error('Game not started');
     y--;
     x--;
     this.prov(y, x);
@@ -47,6 +48,7 @@ export default class GameConsoleController {
 
 
   setFlag(y, x) {
+    if (this.model.getStatusGame() !== 'playing') throw new Error('Game not started');
     y--;
     x--;
     this.prov(y, x);
@@ -62,6 +64,7 @@ export default class GameConsoleController {
   }
 
   removeFlag(y, x) {
+    if (this.model.getStatusGame() !== 'playing') throw new Error('Game not started');
     y--;
     x--;
     this.prov(y, x);
@@ -75,6 +78,7 @@ export default class GameConsoleController {
   }
 
   resign() {
+    if (this.model.getStatusGame() !== 'playing') throw new Error('Game not started');
     if (this.model.getStatusGame() === 'playing') {
       this.model.endGame('lose');
     } else throw new Error('Game not run');
@@ -93,6 +97,7 @@ export default class GameConsoleController {
   }
 
   cancel() {
+    if (this.model.getStatusGame() !== 'playing') throw new Error('Game not started');
     if (this.history) {
       if (this.model.getNumClicks() != 0)
         this.history.cancel();
@@ -103,5 +108,4 @@ export default class GameConsoleController {
   help() {
     this.viewCons.showHelp();
   }
-
 }
