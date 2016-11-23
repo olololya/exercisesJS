@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+  <div class="main-container">
+    <div class="config-container">
+      <div class="btn-menu disable">
+        <span class="first"></span>
+        <span class="second"></span>
+        <span class="third"></span>
+      </div>
+      <span id="type">Обычный</span>
+    </div>
+    <div class="prev-container">
+      <span id="prevNum"></span>
+      <span id="operation"></span>
+    </div>
+    <div id="curr-container">
+      <span id="currNum">0</span>
+    </div>
+    <div id="moperations-container">
+      <span id="m-clear" class="disable">MC</span><!--
+      --><span id="m-read" class="disable">MR</span><!--
+      --><span id="m-plus">M+</span><!--
+      --><span id="m-minus">M-</span><!--
+      --><span id="m-save">MS</span><!--
+      --><span id="m-show" class="disable">M▾</span>
+      <input id="memory" type="hidden" value="0">
+    </div>
+    <table align="center" cellspacing="0" id="main-table">
+      <tr>
+        <td id="percent">%</td>
+        <td id="root">&#8730;</td>
+        <td id="square"><i>x</i>&#178;</td>
+        <td id="fraction">&#185;/<i>x</i></td>
+      </tr>
+      <tr>
+        <td id="clear-entry">CE</td>
+        <td id="clear">C</td>
+        <td id="clear-left">&#9003;</td>
+        <td id="div" class="operations">&#247;</td>
+      </tr>
+      <tr>
+        <td id="seven" class="number">7</td>
+        <td id="eight" class="number">8</td>
+        <td id="nine" class="number">9</td>
+        <td id="mul" class="operations">&#215;</td>
+      </tr>
+      <tr class="color-back">
+        <td id="four" class="number">4</td>
+        <td id="five" class="number">5</td>
+        <td id="six" class="number">6</td>
+        <td id="minus" class="operations">&#8722;</td>
+      </tr>
+      <tr>
+        <td id="one" class="number">1</td>
+        <td id="two" class="number">2</td>
+        <td id="three" class="number">3</td>
+        <td id="plus" class="operations">+</td>
+      </tr>
+      <tr>
+        <td id="negative" class="operations">&#177;</td>
+        <td id="zero" class="number">0</td>
+        <td id="dot" class="operations">,</td>
+        <td id="equal" class="operations">=</td>
+      </tr>
+    </table>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

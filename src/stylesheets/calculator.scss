@@ -1,0 +1,190 @@
+$pink: #f2f2f2;
+$font-size: 20px;
+$border: 1px solid lightgray;
+
+@mixin pointer {
+  cursor: pointer;
+  user-select: none;
+}
+@mixin output-container {
+  padding: 0 5px;
+  text-align: right;
+  font-weight: bold;
+}
+@mixin disable {
+  cursor: default;
+  color: lightgray;
+}
+
+div.main-container {
+  width: 280px;
+  border: $border;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+
+  box-shadow:
+          0 1px 4px rgba(0, 0, 0, .3),
+          -13px 0 20px -23px rgba(0, 0, 0, .8),
+          13px 0 20px -23px rgba(0, 0, 0, .8);
+}
+
+div.config-container {
+  height: 20px;
+  padding: 10px;
+
+  span {
+    padding: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: $font-size - 5;
+    margin-left: 10px;
+    cursor: default;
+  }
+
+  .btn-menu {
+    @include pointer;
+    display: inline-block;
+    vertical-align: bottom;
+    padding: 5px;
+    width: 20px;
+
+    span {
+      display: block;
+      height: 1px;
+      background-color: #000;
+      margin: 4px 0 0;
+      padding: 0;
+
+      &.first {
+        margin-top: 0;
+      }
+    }
+
+    &.disable {
+      @include disable;
+
+      span {
+        background-color: lightgray;
+      }
+    }
+  }
+
+}
+
+div.prev-container {
+  @include output-container;
+  height: 20px;
+  padding-top: 10px;
+  font-size: $font-size;
+}
+
+div#curr-container {
+  @include output-container;
+  height: 50px;
+  margin-bottom: 20px;
+
+  span {
+    display: inline-block;
+    font-size: 50px;
+  }
+}
+
+div#moperations-container {
+  border-bottom: $border;
+  padding: 5px 2px;
+
+  span {
+    @include pointer;
+    display: inline-block;
+    font-size: $font-size - 7;
+    width: 46px;
+    text-align: center;
+
+    &.disable {
+      @include disable;
+    }
+
+    @keyframes shake {
+      10% { transform: rotate(25deg); }
+      20% { transform: rotate(50deg); }
+      30% { transform: rotate(25deg); }
+      40% { transform: rotate(0deg); }
+      50% { transform: rotate(-25deg); }
+      60% { transform: rotate(-50deg); }
+      70% { transform: rotate(-25deg); }
+      80% { transform: rotate(0deg); }
+      85% { transform: rotate(10deg); }
+      90% { transform: rotate(0deg); }
+      95% { transform: rotate(-10deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    &:hover {
+      animation: shake .5s linear;
+    }
+
+    &.disable:hover {
+      animation: none;
+    }
+  }
+}
+
+table {
+  background-color: $pink;
+
+  & tr:first-child {
+    background-color: #fff;
+    font-size: $font-size + 2;
+    font-family: serif;
+
+    & td:first-child {
+      font-weight: bold;
+    }
+  }
+
+  tr {
+    background-color: $pink;
+
+    @mixin td-font {
+      padding: ($font-size/2 - 2) 0;
+      font-size: $font-size + 5;
+    }
+
+    td {
+      @include pointer;
+      width: 70px;
+      padding: $font-size/2 0;
+      text-align: center;
+      color: lighten(black, 10%);
+      transition: all .3s linear;
+
+      &.number {
+        @include td-font;
+        font-weight: 700;
+      }
+
+      &.operations {
+        @include td-font;
+        font-weight: 300;
+      }
+
+      &:hover {
+
+        background-color: white;
+        color: black;
+        text-shadow: 1px 1px 2px gray;
+        box-shadow:
+                0 0 0 2px gray inset,
+                0 0 0 4px $pink inset,
+                0 0 2px 6px $pink inset;
+      }
+
+      &:active {
+        transform: scale(0.9, 0.9) translateY(-1px);
+        color: gray;
+      }
+    }
+  }
+}
+
