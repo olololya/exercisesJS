@@ -1,0 +1,28 @@
+$border: 1px solid lightgray;
+
+div.draggable {
+  width: 300px;
+  margin: 20px;
+  padding: 10px 20px;
+  border: $border;
+  user-select: none;
+
+  label {
+    margin-right: 10px;
+  }
+
+  input[type="text"] {
+    padding: 5px 10px;
+  }
+}
+
+form {
+  width: 500px;
+
+  fieldset {
+    height: 300px;
+  }
+}
+
+
+
