@@ -1,28 +1,57 @@
+@import url('/node_modules/bootstrap/dist/css/bootstrap.css');
+
 $border: 1px solid lightgray;
 
-div.draggable {
-  width: 300px;
-  margin: 20px;
-  padding: 10px 20px;
-  border: $border;
+body {
   user-select: none;
+}
+
+@mixin dragElem {
+  width: 350px;
+  padding: 10px 20px;
 
   label {
     margin-right: 10px;
   }
 
-  input[type="text"] {
+  input {
     padding: 5px 10px;
   }
 }
 
-form {
-  width: 500px;
-
-  fieldset {
-    height: 300px;
-  }
+@mixin zons {
+  width: 400px;
+  margin: 20px;
+  border: $border;
+  display: inline-block;
+  padding: 10px;
+  vertical-align: top;
+  min-height: 100px;
+  transition: all 1s linear;
 }
 
+div#store {
+  @include zons;
+}
+
+div.draggable {
+  @include dragElem;
+}
+
+.avatar {
+  @include dragElem;
+  background-color: white;
+  box-shadow:  0 0 10px 5px rgba(221, 221, 221, 1);
+}
+
+form {
+  @include zons;
+  float: right;
+
+  .hover {
+    background-color: bisque;
+    border: 1px solid red;
+  }
+}
 
 

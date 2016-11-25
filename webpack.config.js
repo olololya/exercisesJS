@@ -30,7 +30,12 @@ module.exports = {
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('development')
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    })
   ],
 
   resolveLoaders: {
@@ -48,9 +53,18 @@ module.exports = {
         presets: ['es2015'],
         plugins: ['transform-runtime']
       }
-    },{
+    }, {
       test: /\.scss$/,
       loader: 'style!css!sass'
+    }, {
+      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      loader: "file"
+    }, {
+      test: /\.(woff2?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      loader: "file?name=fonts/[name].[ext]"
+    }, {
+      test: /bootstrap\/dist\/js\/umd\//,
+      loader: 'imports?jQuery=jquery'
     }]
   },
 
