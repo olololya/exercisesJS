@@ -45,7 +45,7 @@ let dragManager = new function() {
     dragZone = findDragZone(e);
 
     if (!dragZone) {
-      return;
+      return false;
     }
 
     downX = e.pageX;
@@ -56,7 +56,7 @@ let dragManager = new function() {
 
       if (!avatar) {
         cleanUp();
-        return;
+        return false;
       }
 
       avatar.onDragMove(e);
@@ -64,6 +64,7 @@ let dragManager = new function() {
 
     return false;
   };
+
 
   function findDragZone(event) {
     let elem = event.target;

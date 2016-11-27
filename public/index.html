@@ -6,20 +6,69 @@
 </head>
 <body>
 
-  <div id="store" class="col-md-6">
-    <div class="draggable">
-      <label for="textinput">Text input</label>
-      <input type="text" id="textinput" disabled>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title">Elements</div>
+        </div>
+        <div id="store" class="panel-body dragzone">
+          <!--text input-->
+          <div class="draggable">
+            <label for="textinput">Text input</label>
+            <input type="text" id="textinput" class="form-control">
+          </div>
+          <!--text area-->
+          <div class="draggable">
+            <label for="textarea">Text area</label>
+            <textarea id="textarea" rows="2" class="form-control"></textarea>
+          </div>
+          <!--checkbox-->
+          <div class="draggable">
+            <label>Checkbox</label><br>
+            <input type="checkbox" id="checkbox1" value="1" ><label for="checkbox1" class="check">1</label>
+            <input type="checkbox" id="checkbox2" value="2"><label for="checkbox2" class="check">2</label>
+          </div>
+          <!--radiobutton-->
+          <div class="draggable">
+            <label>Radio</label><br>
+            <input type="radio" id="radio1" name="radio"><label for="radio1" class="check">1</label>
+            <input type="radio" id="radio2" name="radio"><label for="radio2" class="check">2</label>
+          </div>
+          <!--select list-->
+          <div class="draggable">
+              <label for="sel1">Select list:</label>
+              <select class="form-control" id="sel1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+          </div>
+          <!--button-->
+          <div class="draggable">
+            <button type="button" class="btn btn-primary">Button</button>
+          </div>
+          <!--group button-->
+          <div class="draggable">
+            <button type="button" class="btn btn-success">OK</button>
+            <button type="button" class="btn btn-danger">Cancel</button>
+          </div>
+       </div>
+      </div>
+
+      <div class="col-md-5 col-md-offset-2 panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title">Your form</div>
+        </div>
+        <div class="panel-body">
+          <form id="my-form" class="droppable  dragzone"></form>
+        </div>
+      </div>
+
     </div>
-    <div class="draggable">
-      <label for="passinput">Password input</label>
-      <input type="password" id="passinput" disabled>
-    </div>
+
   </div>
-
-  <form id="my-form" class="droppable col-md-6">
-
-  </form>
   <script src="main.js"></script>
 </body>
 </html>

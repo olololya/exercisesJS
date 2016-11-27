@@ -9,17 +9,16 @@ export default class FromDragAvatar extends DragAvatar {
   }
 
   initFromEvent(downX, downY, event) {
-    let flag = false;
-    if (event.target.tagName != 'DIV' || event.target.id == 'my-form') {
-      if (event.target.parentNode.tagName != 'DIV' && !event.target.parentNode.classList.contains('.draggable'))
+    if (!event.target.classList.contains('draggable')) {
+      if (!event.target.parentNode.classList.contains('draggable'))
         return false;
-      else {
-        this.dragZoneElem = event.target.parentNode;
-        flag = true;
-      }
+      else this.dragZoneElem = event.target.parentNode;
+    } else {
+      this.dragZoneElem = event.target;
     }
-    if (!flag) this.dragZoneElem = event.target;
     let elem = this.elem = this.dragZoneElem.cloneNode(true);
+    elem.style.width =  parseInt(getComputedStyle( this.dragZoneElem).width) + 'px';
+    elem.style.height =  parseInt(getComputedStyle( this.dragZoneElem).height) + 'px';
     elem.classList.add('avatar');
 
     let coords = getCoords(this.dragZoneElem);
