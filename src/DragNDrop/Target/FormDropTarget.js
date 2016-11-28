@@ -1,6 +1,7 @@
 'use strict';
 
 import DropTarget from './DropTarget.js';
+import FormDragAvatar from '../Avatar/FormDragAvatar';
 
 export default class FormDropTarget extends DropTarget {
 
@@ -9,10 +10,14 @@ export default class FormDropTarget extends DropTarget {
   }
 
   onDragEnd(avatar, event) {
-    this.onDragLeave(avatar);
-    let newElem = avatar.dragZoneElem.cloneNode(true);
-    this.elem.appendChild(newElem);
-    avatar.onDragEnd();
+    if (avatar instanceof FormDragAvatar) {
+      avatar.onDragCancel();
+    } else {
+      this.onDragLeave(avatar);
+      let newElem = avatar.dragZoneElem.cloneNode(true);
+      this.elem.appendChild(newElem);
+      avatar.onDragEnd();
+    }
   }
 
   onDragEnter(avatar, event) {

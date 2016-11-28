@@ -33,7 +33,6 @@ export default class FromDragAvatar extends DragAvatar {
   }
 
   destroy() {
-    this.dragZoneElem.parentNode.removeChild(this.dragZoneElem);
     document.body.removeChild(this.elem);
   }
 
@@ -43,6 +42,7 @@ export default class FromDragAvatar extends DragAvatar {
 
   onDragEnd() {
     this.destroy();
+    this.dragZoneElem.parentNode.removeChild(this.dragZoneElem);
   }
 
 }

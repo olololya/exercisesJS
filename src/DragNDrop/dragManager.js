@@ -1,5 +1,8 @@
 'use strict';
 
+import FormDragAvatar from './Avatar/FormDragAvatar';
+import StoreDragAvatar from './Avatar/StoreDragAvatar';
+
 let dragManager = new function() {
 
   let dragZone, avatar, dropTarget;
@@ -8,13 +11,26 @@ let dragManager = new function() {
   document.onmousemove = (e) => {
     if (!dragZone) return;
 
+    if (!avatar) {
+      if (Math.abs(e.pageX - downX) < 1 && Math.abs(e.pageY - downY) < 1) {
+        return;
+      }
+      avatar = dragZone.onDragStart(downX, downY, e);
+      if (!avatar) {
+        cleanUp();
+        return;
+      }
+    }
+
     avatar.onDragMove(e);
 
     let newDropTarget = findDropTarget(e);
 
     if (newDropTarget != dropTarget) {
-      dropTarget && dropTarget.onDragLeave(avatar, e);
-      newDropTarget && newDropTarget.onDragEnter(avatar, e);
+      if (avatar instanceof StoreDragAvatar) {
+        dropTarget && dropTarget.onDragLeave(avatar, e);
+        newDropTarget && newDropTarget.onDragEnter(avatar, e);
+      }
     }
     dropTarget = newDropTarget;
 
@@ -30,7 +46,8 @@ let dragManager = new function() {
       if (dropTarget) {
         dropTarget.onDragEnd(avatar, e);
       } else {
-        avatar.onDragCancel();
+        if (avatar instanceof FormDragAvatar) avatar.onDragEnd();
+        else avatar.onDragCancel();
       }
     }
 
@@ -43,24 +60,12 @@ let dragManager = new function() {
     }
 
     dragZone = findDragZone(e);
-
     if (!dragZone) {
       return false;
     }
 
     downX = e.pageX;
     downY = e.pageY;
-
-    if (!avatar) {
-      avatar = dragZone.onDragStart(downX, downY, e);
-
-      if (!avatar) {
-        cleanUp();
-        return false;
-      }
-
-      avatar.onDragMove(e);
-    }
 
     return false;
   };
