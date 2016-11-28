@@ -47,12 +47,12 @@
           </div>
           <!--button-->
           <div class="draggable">
-            <button type="button" class="btn btn-primary">Button</button>
+            <input type="button" class="btn btn-primary" value="Button">
           </div>
           <!--group button-->
           <div class="draggable">
-            <button type="button" class="btn btn-success">OK</button>
-            <button type="button" class="btn btn-danger">Cancel</button>
+            <input type="button" class="btn btn-success" value="OK">
+            <input type="button" class="btn btn-danger" value="Cancel">
           </div>
        </div>
       </div>
@@ -67,7 +67,17 @@
       </div>
 
     </div>
-
+    <div class="row">
+      <hr>
+      <div class="col-md-5 form-json">
+        <label for="textareaJSON">JSON:</label>
+        <textarea id="textareaJSON" rows="10" class="form-control"></textarea>
+        <button type="button" class="btn btn-default" id="tojson">To JSON</button>
+        <button type="button" class="btn btn-default" id="fromjson">From JSON</button>
+      </div>
+      <div class="col-md-5 col-md-offset-2" id="your-form">
+        <label>Your form</label>
+      </div>
   </div>
   <script src="main.js"></script>
 </body>

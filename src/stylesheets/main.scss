@@ -15,7 +15,6 @@ $border: 1px solid lightgray;
 div.draggable {
   padding: 10px 5px;
 
-
   label.check {
     font-weight: 400;
     vertical-align: middle;
@@ -27,10 +26,16 @@ div.draggable {
     user-select: none;
 
     &[type="checkbox"],
-    &[type="radio"] {
+    &[type="radio"],
+    &[type="button"] {
       margin-left: 10px;
     }
   }
+}
+
+div.container-elements {
+  @extend .draggable;
+
 }
 
 .avatar {
@@ -57,16 +62,4 @@ div.form-json {
     width: 120px;
     margin: 10px auto;
   }
-
-
-
-
-
-
-
-
-
-
-
-
 }

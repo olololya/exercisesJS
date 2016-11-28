@@ -61,7 +61,7 @@ let dragManager = new function() {
 
     dragZone = findDragZone(e);
     if (!dragZone) {
-      return false;
+      return;
     }
 
     downX = e.pageX;
