@@ -1,10 +1,6 @@
 'use strict';
 
-import Element from './Element classes/Element';/*
-import Select from './Element classes/Select';
-import TextArea from './Element classes/TextArea';
-import Label from './Element classes/Label';
-import Br from './Element classes/Br';*/
+import Element from './Element classes/Element';
 
 export default class JSONParser {
 
@@ -43,16 +39,20 @@ export default class JSONParser {
   }
 
   static fromJSON(strJSON, parentElem) {
-    let jsonArr = JSON.parse(strJSON);
-    for (let i = 0; i < jsonArr.length; i++) {
-      let div = document.createElement('div');
-      div.classList.add('container-elements');
-      parentElem.appendChild(div);
-      for (let elem of jsonArr[i]) {
-        let new_elem = Element.getElem(elem);
-        console.log(new_elem);
-        div.appendChild(new_elem);
+    try {
+      let jsonArr = JSON.parse(strJSON);
+      for (let i = 0; i < jsonArr.length; i++) {
+        let div = document.createElement('div');
+        div.classList.add('container-elements');
+        parentElem.appendChild(div);
+        for (let elem of jsonArr[i]) {
+          let new_elem = Element.getElem(elem);
+          div.appendChild(new_elem);
+        }
       }
+    } catch (e) {
+      alert('Error! Something wrong with your json');
+      console.log(e);
     }
   }
 }

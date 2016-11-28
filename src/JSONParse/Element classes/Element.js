@@ -21,7 +21,6 @@ export default class Element {
   static createSelect(elem) {
     let new_elem = new Element(elem);
     new_elem.options = (function() {
-      console.log(elem.children);
       let arr = [];
       for (let child of elem.children) {
         arr.push({
