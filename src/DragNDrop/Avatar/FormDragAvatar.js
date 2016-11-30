@@ -1,6 +1,7 @@
 'use strict';
 
 import DragAvatar from './DragAvatar.js';
+import JSONParser from '../../JSONParse/JSONController';
 
 export default class FromDragAvatar extends DragAvatar {
 
@@ -42,6 +43,7 @@ export default class FromDragAvatar extends DragAvatar {
 
   onDragEnd() {
     this.destroy();
+    JSONParser.deleteObj(this.dragZoneElem);
     this.dragZoneElem.parentNode.removeChild(this.dragZoneElem);
   }
 

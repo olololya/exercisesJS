@@ -2,6 +2,7 @@
 
 import DropTarget from './DropTarget.js';
 import FormDragAvatar from '../Avatar/FormDragAvatar';
+import JSONParser from '../../JSONParse/JSONController';
 
 export default class FormDropTarget extends DropTarget {
 
@@ -16,6 +17,7 @@ export default class FormDropTarget extends DropTarget {
       this.onDragLeave(avatar);
       let newElem = avatar.dragZoneElem.cloneNode(true);
       this.elem.appendChild(newElem);
+      newElem.id = JSONParser.addObj(newElem)
       avatar.onDragEnd();
     }
   }

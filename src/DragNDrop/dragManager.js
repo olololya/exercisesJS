@@ -70,7 +70,6 @@ let dragManager = new function() {
     return false;
   };
 
-
   function findDragZone(event) {
     let elem = event.target;
     while (elem != document && !elem.dragZone) {

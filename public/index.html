@@ -6,7 +6,8 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" id="main-container">
+
     <div class="row">
       <div class="col-md-5 panel panel-default">
         <div class="panel-heading">
@@ -16,43 +17,40 @@
           <!--text input-->
           <div class="draggable">
             <label for="textinput">Text input</label>
-            <input type="text" id="textinput" class="form-control">
+            <input type="text" id="textinput" class="form-control" placeholder="placeholder">
           </div>
           <!--text area-->
           <div class="draggable">
             <label for="textarea">Text area</label>
-            <textarea id="textarea" rows="2" class="form-control"></textarea>
+            <textarea id="textarea" rows="2" class="form-control" placeholder="placeholder"></textarea>
           </div>
           <!--checkbox-->
           <div class="draggable">
-            <label>Checkbox</label><br>
-            <input type="checkbox" id="checkbox1" value="1" ><label for="checkbox1" class="check">1</label>
-            <input type="checkbox" id="checkbox2" value="2"><label for="checkbox2" class="check">2</label>
+            <label>Checkbox</label>
+            <div class="check-container">
+              <input type="checkbox" id="checkbox1"><label for="checkbox1" class="check">1</label>
+              <input type="checkbox" id="checkbox2"><label for="checkbox2" class="check">2</label>
+            </div>
           </div>
           <!--radiobutton-->
           <div class="draggable">
-            <label>Radio</label><br>
-            <input type="radio" id="radio1" name="radio"><label for="radio1" class="check">1</label>
-            <input type="radio" id="radio2" name="radio"><label for="radio2" class="check">2</label>
+            <label>Radio</label>
+            <div class="check-container">
+              <input type="radio" id="radio1" name="radio"><label for="radio1" class="check">1</label>
+              <input type="radio" id="radio2" name="radio"><label for="radio2" class="check">2</label>
+            </div>
           </div>
           <!--select list-->
           <div class="draggable">
-              <label for="sel1">Select list:</label>
-              <select class="form-control" id="sel1">
+              <label for="select">Select list:</label>
+              <select class="form-control" id="select">
                 <option>1</option>
                 <option>2</option>
-                <option>3</option>
-                <option>4</option>
               </select>
           </div>
           <!--button-->
           <div class="draggable">
-            <input type="button" class="btn btn-primary" value="Button">
-          </div>
-          <!--group button-->
-          <div class="draggable">
-            <input type="button" class="btn btn-success" value="OK">
-            <input type="button" class="btn btn-danger" value="Cancel">
+            <button type="button" class="btn btn-default" id="button">Button</button>
           </div>
        </div>
       </div>
@@ -65,20 +63,41 @@
           <form id="my-form" class="droppable  dragzone"></form>
         </div>
       </div>
-
     </div>
+
     <div class="row">
       <hr>
       <div class="col-md-5 form-json">
         <label for="textareaJSON">JSON:</label>
         <textarea id="textareaJSON" rows="10" class="form-control"></textarea>
-        <button type="button" class="btn btn-default" id="tojson">To JSON</button>
-        <button type="button" class="btn btn-default" id="fromjson">From JSON</button>
+        <button type="button" class="btn btn-default" id="fromjson">Get Form</button>
       </div>
       <div class="col-md-5 col-md-offset-2" id="your-form">
         <label>Your form</label>
       </div>
-  </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Element configuration</h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="button-save">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="button-delete">Delete</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   <script src="main.js"></script>
 </body>
 </html>
