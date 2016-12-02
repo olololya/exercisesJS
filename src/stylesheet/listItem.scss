@@ -1,0 +1,58 @@
+div.item-container {
+  height: 40px;
+  background-color: #f0f0f0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+  }
+
+  .item-status {
+    display: inline-block;
+    width: 40px;
+    height: 39px;
+    margin-right: 10px;
+    vertical-align: middle;
+    transition: all 0.5s linear;
+    cursor: pointer;
+  }
+
+  .item-text {
+    transition: all .3s linear;
+  }
+
+  .delete-item {
+    display: inline-block;
+    float: right;
+    font-size: 0.9em;
+    color: lightgray;
+    height: 40px;
+    padding: 10px;
+    user-select: none;
+    cursor: pointer;
+    transition: all .3s linear;
+    vertical-align: middle;
+
+    &:hover {
+      color: darken(lightgray, 30%);
+    }
+  }
+
+
+  &.item-complete {
+    span.item-status {
+      background-color: #91db92;
+    }
+
+    span.item-text {
+      color: darkgray;
+      text-decoration: line-through;
+    }
+  }
+
+  &.item-noComplete {
+    span.item-status {
+      background-color: #ff5d61;
+    }
+  }
+}
+

@@ -1,0 +1,22 @@
+.fieldAdd {
+  margin: 10px 0;
+  text-align: center;
+
+  button {
+    margin-left: 3px;
+    height: 34px;
+    display: inline-block;
+  }
+
+  input {
+    width: 350px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  textarea {
+    width: 403px;
+    margin-top: 10px;
+    height: 200px;
+  }
+}
