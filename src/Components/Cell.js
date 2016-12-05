@@ -34,11 +34,14 @@ class Cell extends Component {
 
     let cell = (() => {
       let classCell;
+      let inner = '';
       if (this.state.open) {
         classCell = 'open ';
         if (this.state.bomb) {
           if (this.state.flag) classCell += 'flag-bomb';
           else classCell += 'bomb'
+        } else {
+          if (this.state.inner != 0) inner = this.state.inner;
         }
       } else {
         if (this.state.flag) classCell += 'flag ';
@@ -47,7 +50,7 @@ class Cell extends Component {
         if (this.state.bomb) classCell += 'bomb';
       }
       return (
-        <div className={classCell}></div>
+        <div className={classCell}>{inner}</div>
       )
     })();
 

@@ -39,6 +39,7 @@ class GameApp extends Component {
       flagCells: []
     };
     this.openCell = this.openCell.bind(this);
+    this.isOpenCell = this.isOpenCell.bind(this);
     this.isBomb = this.isBomb.bind(this);
     this.isFlag = this.isFlag.bind(this);
     this.getInner = this.getInner.bind(this);
@@ -52,7 +53,7 @@ class GameApp extends Component {
       this.generateBomb(id);
     }
 
-    if (this.state.openCells.indexOf(id) != -1) return;
+    if (this.isOpenCell(id)) return;
     openCells.push(id);
     clicks++;
     this.setState({
@@ -62,7 +63,23 @@ class GameApp extends Component {
   }
 
   getInner(id) {
+    let num = 0;
+    let [x, y] = id.split(' ');
+    x = parseInt(x);
+    y = parseInt(y);
+    for (let n = x - 1; n <= x + 1; n++)
+      if (n >= 0 && n < this.state.currDiff.rows)
+        for (let m = y - 1; m <= y + 1; m++)
+          if (m >= 0 && m < this.state.currDiff.cols)
+            if (n == x && m == y) continue;
+            else
+            if (this.isBomb(n + ' ' + m)) num++;
+    return num;
+  }
 
+  isOpenCell(id) {
+    if (this.state.openCells.indexOf(id) != -1) return true;
+    return false;
   }
 
   isFlag(id) {
