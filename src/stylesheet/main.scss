@@ -1,0 +1,38 @@
+table {
+  border-collapse: collapse;
+  margin: 25px auto;
+
+  td {
+    border: 1px solid black;
+    div {
+      height: 30px;
+      width: 30px;
+      text-align: center;
+
+      &.close {
+        background-color: lightgray;
+        color: lightgray;
+      }
+
+      &.flag {
+        background-color: #849dff;
+        color: #849dff;
+      }
+
+      &.open {
+        background-color: white;
+        color: black;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      &.bomb {
+        background-color: #ff726b;
+      }
+
+      &.flag-bomb {
+        background-color: #a741ff;
+      }
+    }
+  }
+}
