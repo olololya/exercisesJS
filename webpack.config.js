@@ -30,12 +30,7 @@ module.exports = {
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('development')
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery',
-      jquery: 'jquery'
-    })
+    new webpack.HotModuleReplacementPlugin()
   ],
 
   resolveLoaders: {
@@ -44,42 +39,37 @@ module.exports = {
     extensions: ['', '.js']
   },
 
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json']
+  },
+
   module: {
     loaders: [{
-      test: /\.js$/,
-      include: path.resolve(__dirname, 'src'),
-      loader: 'babel',
-      query: {
-        presets: ['es2015', 'react'],
-        plugins: ['transform-runtime']
-      }
+      test: /\.(js$|jsx$)/,
+      exclude: /node_modules/,
+      loaders: ['babel', 'eslint']
     }, {
       test: /\.scss$/,
       loader: 'style!css!sass'
     }, {
         test: /\.png$/,
         loader: "url-loader?limit=100000"
-      },
-      {
+    }, {
         test: /\.jpg$/,
         loader: "file-loader"
-      },
-      {
+    }, {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url?limit=10000&mimetype=application/font-woff'
-      },
-      {
+    }, {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url?limit=10000&mimetype=application/octet-stream'
-      },
-      {
+    }, {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file'
-      },
-      {
+    }, {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url?limit=10000&mimetype=image/svg+xml'
-      }]
+    }]
   },
 
   devServer: {
@@ -88,4 +78,5 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'public'),
     hot: true
   }
+
 };

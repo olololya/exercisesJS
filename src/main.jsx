@@ -5,7 +5,4 @@ import GameApp from './Components/GameApp';
 
 import './stylesheet/main.scss';
 
-ReactDOM.render(
-  <GameApp />,
-  document.getElementById('app')
-);
+ReactDOM.render(<GameApp />, document.getElementById('app'));
