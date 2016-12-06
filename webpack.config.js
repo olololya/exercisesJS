@@ -45,7 +45,11 @@ module.exports = {
 
   module: {
     loaders: [{
-      test: /\.(js$|jsx$)/,
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'react-hot!babel'
+    }, {
+      test: /\.(js$|jsx?$)/,
       exclude: /node_modules/,
       loaders: ['babel', 'eslint']
     }, {
@@ -77,6 +81,9 @@ module.exports = {
     port: 8080,
     contentBase: path.resolve(__dirname, 'public'),
     hot: true
-  }
+  },
 
+  eslint: {
+    configFile: './.eslintrc'
+  }
 };

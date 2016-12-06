@@ -4,57 +4,53 @@ import classNames from 'classnames';
 class Cell extends Component {
 
   static propTypes = {
-    idRow: PropTypes.number,
-    idCell: PropTypes.number,
+    id: PropTypes.string,
     openCell: PropTypes.func,
-    getInner: PropTypes.func,
-    isBomb: PropTypes.func,
-    isFlag: PropTypes.func,
+    inner: PropTypes.number,
+    bomb: PropTypes.bool,
+    flag: PropTypes.bool,
     open: PropTypes.bool,
     setFlag: PropTypes.func };
 
   constructor(props) {
     super(props);
-    const idLocal = `${this.props.idRow} ${this.props.idCell}`;
     this.state = {
-      id: idLocal,
-      inner: this.props.getInner(idLocal),
-      bomb: this.props.isBomb(idLocal),
-      flag: this.props.isFlag(idLocal) };
-    this.click = this.click.bind(this);
-    this.clickContextMenu = this.clickContextMenu.bind(this);
+      id: this.props.id,
+      inner: this.props.inner,
+      bomb: this.props.bomb,
+      flag: this.props.flag };
   }
 
   update() {
     this.setState({
-      inner: this.props.getInner(this.state.id),
-      bomb: this.props.isBomb(this.state.id),
-      flag: this.props.isFlag(this.state.id) });
+      inner: this.props.inner,
+      bomb: this.props.bomb,
+      flag: this.props.flag });
   }
 
-  click() {
+  click = () => {
     this.props.openCell(this.state.id);
     this.update();
-  }
+  };
 
-  clickContextMenu(event) {
+  clickContextMenu = (event) => {
     event.preventDefault();
     this.props.setFlag(this.state.id);
     this.update();
-  }
+  };
 
   generateCell() {
     const classCell = classNames({
       close: !this.props.open,
       open: this.props.open,
-      bomb: this.state.bomb && this.props.open,
-      flag: this.state.flag,
-      'flag-bomb': this.state.bomb && this.state.flag && this.props.open });
+      bomb: this.props.bomb && this.props.open,
+      flag: this.props.flag,
+      'flag-bomb': this.props.bomb && this.props.flag && this.props.open });
 
     let inner = '';
-    if (this.state.inner !== 0) {
-      if (this.props.open && !this.state.bomb && !this.state.flag) {
-        inner = this.state.inner;
+    if (this.props.inner !== 0) {
+      if (this.props.open && !this.props.bomb && !this.props.flag) {
+        inner = this.props.inner;
       }
     }
     return (
@@ -62,9 +58,9 @@ class Cell extends Component {
         className={classCell}
         onClick={this.click}
         onContextMenu={this.clickContextMenu}
-        id={`${this.props.idRow} ${this.props.idCell}`}
+        id={this.props.id}
       >
-        { inner }
+        {inner}
       </button>
     );
   }
@@ -77,7 +73,5 @@ class Cell extends Component {
     );
   }
 }
-
-// Cell.
 
 export default Cell;

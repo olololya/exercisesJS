@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 
 import Board from './Board';
+import Difficult from './Difficult';
+import Status from './Status';
 
-const difficult = [
-  { name: 'easy',
+const DIFFICULT = {
+  easy: {
     rows: 10,
     cols: 10,
     bombs: 10 },
-  { name: 'normal',
+  normal: {
     rows: 15,
     cols: 15,
     bombs: 30 },
-  { name: 'hard',
+  hard: {
     rows: 20,
     cols: 20,
-    bombs: 50 }];
+    bombs: 50 } };
+
+const STATUS_GAME = {
+  nostart: 'nostart',
+  playing: 'playing',
+  lose: 'lose',
+  win: 'win' };
 
 class GameApp extends Component {
 
@@ -46,20 +54,28 @@ class GameApp extends Component {
   constructor() {
     super();
     this.state = {
-      currDiff: difficult[0],
-      statusGame: null,
-      numFlags: difficult[0].bombs,
-      openCells: [],
-      bombCells: GameApp.generateBomb(difficult[0]),
-      flagCells: [] };
-    this.openCell = this.openCell.bind(this);
-    this.setFlag = this.setFlag.bind(this);
-    this.isBomb = this.isBomb.bind(this);
-    this.isFlag = this.isFlag.bind(this);
-    this.getInner = this.getInner.bind(this);
+      statusGame: STATUS_GAME.nostart };
   }
 
-  getInner(id) {
+  getBoard = () => {
+    if (this.state.statusGame !== STATUS_GAME.nostart) {
+      return (
+        <Board
+          numRows={this.state.currDiff.rows}
+          numCols={this.state.currDiff.cols}
+          openCells={this.state.openCells.join()}
+          openCell={this.openCell}
+          getInner={this.getInner}
+          isBomb={this.isBomb}
+          isFlag={this.isFlag}
+          setFlag={this.setFlag}
+        />
+      );
+    }
+    return false;
+  };
+
+  getInner = (id) => {
     let num = 0;
     let [x, y] = id.split(' ');
     x = parseInt(x, 10);
@@ -76,11 +92,15 @@ class GameApp extends Component {
       }
     }
     return num;
-  }
+  };
 
-  setFlag(id) {
+  setFlag = (id) => {
+    if (this.state.statusGame !== STATUS_GAME.playing) return;
+    if (this.isOpenCell(id)) return;
+
     let numFlagsLocal = this.state.numFlags;
     const flagCellsLocal = this.state.flagCells;
+
     if (this.isFlag(id)) {
       const ind = flagCellsLocal.indexOf(id);
       flagCellsLocal.splice(ind, 1);
@@ -93,33 +113,20 @@ class GameApp extends Component {
     this.setState({
       flagCells: flagCellsLocal,
       numFlags: numFlagsLocal });
-  }
 
-  openCell(id) {
-    const openCellsLocal = this.state.openCells;
-    if (this.isOpenCell(id)) return;
-    openCellsLocal.push(id);
+    if (numFlagsLocal === 0) this.isWin();
+  };
 
-    this.setState({ openCells: openCellsLocal });
+  isOpenCell = id =>
+    (this.state.openCells.indexOf(id) !== -1);
 
-    if (!this.getInner(id) && !this.isFlag(id)) {
-      this.openNeighboringCells(id);
-    }
-  }
+  isFlag = id =>
+    (this.state.flagCells.indexOf(id) !== -1);
 
-  isOpenCell(id) {
-    return (this.state.openCells.indexOf(id) !== -1);
-  }
+  isBomb = id =>
+    (this.state.bombCells.indexOf(id) !== -1);
 
-  isFlag(id) {
-    return (this.state.flagCells.indexOf(id) !== -1);
-  }
-
-  isBomb(id) {
-    return (this.state.bombCells.indexOf(id) !== -1);
-  }
-
-  openNeighboringCells(id) {
+  openNeighboringCells = (id) => {
     let [x, y] = id.split(' ');
     x = parseInt(x, 10);
     y = parseInt(y, 10);
@@ -137,20 +144,74 @@ class GameApp extends Component {
         }
       }
     }
-  }
+  };
+
+  changeDifficult = value =>
+    this.setState({
+      currDiff: DIFFICULT[value],
+      statusGame: STATUS_GAME.playing,
+      numFlags: DIFFICULT[value].bombs,
+      openCells: [],
+      bombCells: GameApp.generateBomb(DIFFICULT[value]),
+      flagCells: [] });
+
+  openCell = (id) => {
+    if (this.state.statusGame !== STATUS_GAME.playing) return;
+    if (this.isFlag(id)) this.setFlag(id);
+
+    const openCellsLocal = this.state.openCells;
+    if (this.isOpenCell(id)) return;
+    openCellsLocal.push(id);
+
+    this.setState({ openCells: openCellsLocal });
+
+    if (this.isBomb(id)) {
+      this.setState({
+        statusGame: STATUS_GAME.lose });
+      this.endGame();
+      return;
+    }
+
+    if (!this.getInner(id) && !this.isFlag(id)) {
+      this.openNeighboringCells(id);
+    }
+
+    if (this.state.numFlags === 0) this.isWin();
+  };
+
+  isWin = () => {
+    let numOpenCells = this.state.currDiff.rows * this.state.currDiff.cols;
+    numOpenCells -= this.state.currDiff.bombs;
+    if (this.state.openCells.length === numOpenCells) {
+      this.setState({
+        statusGame: STATUS_GAME.win });
+      this.endGame();
+    }
+  };
+
+  endGame = () => {
+    const openCellsLocal = this.state.openCells;
+    for (let i = 1; i <= this.state.currDiff.rows; i += 1) {
+      for (let j = 1; j <= this.state.currDiff.cols; j += 1) {
+        const id = `${i} ${j}`;
+        if (!this.isOpenCell(id)) openCellsLocal.push(id);
+      }
+    }
+    this.setState({
+      openCells: openCellsLocal });
+  };
 
   render() {
     return (
-      <Board
-        numRows={this.state.currDiff.rows}
-        numCols={this.state.currDiff.cols}
-        openCells={this.state.openCells.join()}
-        openCell={this.openCell}
-        getInner={this.getInner}
-        isBomb={this.isBomb}
-        isFlag={this.isFlag}
-        setFlag={this.setFlag}
-      />
+      <div>
+        <div className="header">
+          <Difficult changeDiff={this.changeDifficult} />
+          <Status numFlags={this.state.numFlags} statusGame={this.state.statusGame} />
+        </div>
+        <div>
+          {this.getBoard()}
+        </div>
+      </div>
     );
   }
 }
