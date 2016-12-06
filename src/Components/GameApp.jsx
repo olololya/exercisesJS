@@ -208,9 +208,7 @@ class GameApp extends Component {
           <Difficult changeDiff={this.changeDifficult} />
           <Status numFlags={this.state.numFlags} statusGame={this.state.statusGame} />
         </div>
-        <div>
-          {this.getBoard()}
-        </div>
+        {this.getBoard()}
       </div>
     );
   }

@@ -12,15 +12,6 @@ class Cell extends Component {
     open: PropTypes.bool,
     setFlag: PropTypes.func };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.id,
-      inner: this.props.inner,
-      bomb: this.props.bomb,
-      flag: this.props.flag };
-  }
-
   update() {
     this.setState({
       inner: this.props.inner,
@@ -28,14 +19,14 @@ class Cell extends Component {
       flag: this.props.flag });
   }
 
-  click = () => {
-    this.props.openCell(this.state.id);
+  click = (event) => {
+    this.props.openCell(event.target.id);
     this.update();
   };
 
   clickContextMenu = (event) => {
     event.preventDefault();
-    this.props.setFlag(this.state.id);
+    this.props.setFlag(event.target.id);
     this.update();
   };
 
