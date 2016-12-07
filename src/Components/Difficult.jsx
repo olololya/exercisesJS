@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 class Difficult extends Component {
 
   static propTypes = {
-    changeDiff: PropTypes.func };
+    changeDiff: PropTypes.func
+  };
 
   change = event =>
     this.props.changeDiff(event.target.value);

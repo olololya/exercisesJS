@@ -4,7 +4,8 @@ class Status extends Component {
 
   static propTypes = {
     numFlags: PropTypes.number,
-    statusGame: PropTypes.string };
+    statusGame: PropTypes.string
+  };
 
   static defaultProps = {
     numFlags: 0 };

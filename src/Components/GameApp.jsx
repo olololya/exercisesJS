@@ -8,21 +8,26 @@ const DIFFICULT = {
   easy: {
     rows: 10,
     cols: 10,
-    bombs: 10 },
+    bombs: 10
+  },
   normal: {
     rows: 15,
     cols: 15,
-    bombs: 30 },
+    bombs: 30
+  },
   hard: {
     rows: 20,
     cols: 20,
-    bombs: 50 } };
+    bombs: 50
+  }
+};
 
 const STATUS_GAME = {
   nostart: 'nostart',
   playing: 'playing',
   lose: 'lose',
-  win: 'win' };
+  win: 'win'
+};
 
 class GameApp extends Component {
 
@@ -53,8 +58,7 @@ class GameApp extends Component {
 
   constructor() {
     super();
-    this.state = {
-      statusGame: STATUS_GAME.nostart };
+    this.state = { statusGame: STATUS_GAME.nostart };
   }
 
   getBoard = () => {
@@ -63,7 +67,7 @@ class GameApp extends Component {
         <Board
           numRows={this.state.currDiff.rows}
           numCols={this.state.currDiff.cols}
-          openCells={this.state.openCells.join()}
+          isOpen={this.isOpenCell}
           openCell={this.openCell}
           getInner={this.getInner}
           isBomb={this.isBomb}
@@ -112,8 +116,8 @@ class GameApp extends Component {
     }
     this.setState({
       flagCells: flagCellsLocal,
-      numFlags: numFlagsLocal });
-
+      numFlags: numFlagsLocal
+    });
     if (numFlagsLocal === 0) this.isWin();
   };
 
@@ -153,7 +157,8 @@ class GameApp extends Component {
       numFlags: DIFFICULT[value].bombs,
       openCells: [],
       bombCells: GameApp.generateBomb(DIFFICULT[value]),
-      flagCells: [] });
+      flagCells: []
+    });
 
   openCell = (id) => {
     if (this.state.statusGame !== STATUS_GAME.playing) return;
@@ -166,8 +171,7 @@ class GameApp extends Component {
     this.setState({ openCells: openCellsLocal });
 
     if (this.isBomb(id)) {
-      this.setState({
-        statusGame: STATUS_GAME.lose });
+      this.setState({ statusGame: STATUS_GAME.lose });
       this.endGame();
       return;
     }
@@ -183,8 +187,7 @@ class GameApp extends Component {
     let numOpenCells = this.state.currDiff.rows * this.state.currDiff.cols;
     numOpenCells -= this.state.currDiff.bombs;
     if (this.state.openCells.length === numOpenCells) {
-      this.setState({
-        statusGame: STATUS_GAME.win });
+      this.setState({ statusGame: STATUS_GAME.win });
       this.endGame();
     }
   };
@@ -197,8 +200,7 @@ class GameApp extends Component {
         if (!this.isOpenCell(id)) openCellsLocal.push(id);
       }
     }
-    this.setState({
-      openCells: openCellsLocal });
+    this.setState({ openCells: openCellsLocal });
   };
 
   render() {

@@ -11,7 +11,8 @@
   ],
   "extends": "airbnb",
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "comma-dangle": 0
   },
   "env": {
     "browser": true,

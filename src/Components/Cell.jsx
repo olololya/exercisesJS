@@ -10,24 +10,16 @@ class Cell extends Component {
     bomb: PropTypes.bool,
     flag: PropTypes.bool,
     open: PropTypes.bool,
-    setFlag: PropTypes.func };
-
-  update() {
-    this.setState({
-      inner: this.props.inner,
-      bomb: this.props.bomb,
-      flag: this.props.flag });
-  }
+    setFlag: PropTypes.func
+  };
 
   click = (event) => {
     this.props.openCell(event.target.id);
-    this.update();
   };
 
   clickContextMenu = (event) => {
     event.preventDefault();
     this.props.setFlag(event.target.id);
-    this.update();
   };
 
   generateCell() {
@@ -36,13 +28,12 @@ class Cell extends Component {
       open: this.props.open,
       bomb: this.props.bomb && this.props.open,
       flag: this.props.flag,
-      'flag-bomb': this.props.bomb && this.props.flag && this.props.open });
+      'flag-bomb': this.props.bomb && this.props.flag && this.props.open
+    });
 
     let inner = '';
-    if (this.props.inner !== 0) {
-      if (this.props.open && !this.props.bomb && !this.props.flag) {
-        inner = this.props.inner;
-      }
+    if (this.props.inner !== 0 && this.props.open && !this.props.bomb && !this.props.flag) {
+      inner = this.props.inner;
     }
     return (
       <button
