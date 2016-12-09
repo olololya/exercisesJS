@@ -1,6 +1,6 @@
 table {
   border-collapse: collapse;
-  margin: 25px auto;
+  margin: 0 auto;
   text-align: center;
 
   td {
@@ -43,45 +43,99 @@ table {
   }
 }
 
-.header {
-  border-bottom: 1px solid gray;
+.status-container {
   text-align: center;
+  border-bottom: 1px solid gray;
+  width: 100%;
 
-  .diff-container {
+  div {
     display: inline-block;
     width: 200px;
-    padding: 20px;
+    padding: 5px;
 
-    div {
-      display: inline-block;
-      margin-right: 5px;
+    &:first-child {
+      border-right: 1px solid gray;
     }
 
     p {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: bold;
       margin: 0 0 5px 0;
     }
   }
+}
 
-  .status-container {
-    display: inline-block;
+@mixin main-container {
+  height: 200px;
+  width: 300px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 20px 10px;
 
-    div {
-      display: inline-block;
-      width: 200px;
-      padding: 20px;
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
 
-      &:first-child {
-        border-right: 1px solid gray;
-        border-left: 1px solid gray;
-      }
+.difficult {
+  @include main-container;
 
-      p {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 0 0 5px 0;
+  ul {
+    text-align: center;
+    padding: 0;
+
+    li {
+      list-style: none;
+
+      button {
+        width: 150px;
+        padding: 5px 10px;
+        margin-bottom: 10px;
       }
     }
+  }
+}
+
+.login {
+  @include main-container;
+  text-align: center;
+
+  input[type="text"] {
+    padding: 3px 5px;
+  }
+}
+
+.header {
+  height: 30px;
+  text-align: right;
+  border-bottom: 1px solid gray;
+  padding-right: 20px;
+  vertical-align: middle;
+
+  .login-container {
+    display: inline-block;
+
+    .login-btn {
+      padding: 0 5px;
+      margin-left: 5px;
+    }
+
+    .login-link {
+      display: block;
+
+    }
+  }
+}
+
+.game-container {
+  text-align: center;
+  .game-btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 0 10px;
   }
 }

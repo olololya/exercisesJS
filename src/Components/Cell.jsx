@@ -1,59 +1,53 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classNames from 'classnames';
 
-class Cell extends Component {
-
-  static propTypes = {
-    id: PropTypes.string,
-    openCell: PropTypes.func,
-    inner: PropTypes.number,
-    bomb: PropTypes.bool,
-    flag: PropTypes.bool,
-    open: PropTypes.bool,
-    setFlag: PropTypes.func
-  };
+export default class Cells extends Component {
 
   click = (event) => {
     this.props.openCell(event.target.id);
   };
 
-  clickContextMenu = (event) => {
+  clickContext = (event) => {
     event.preventDefault();
     this.props.setFlag(event.target.id);
   };
 
-  generateCell() {
+  generateCell = () => {
+    const { isOpen, isFlag, isBomb, inner } = this.props;
     const classCell = classNames({
-      close: !this.props.open,
-      open: this.props.open,
-      bomb: this.props.bomb && this.props.open,
-      flag: this.props.flag,
-      'flag-bomb': this.props.bomb && this.props.flag && this.props.open
+      close: !isOpen,
+      open: isOpen,
+      bomb: isBomb && isOpen,
+      flag: isFlag,
+      'flag-bomb': isBomb && isFlag && isOpen
     });
 
-    let inner = '';
-    if (this.props.inner !== 0 && this.props.open && !this.props.bomb && !this.props.flag) {
-      inner = this.props.inner;
-    }
+    let innerLocal = '';
+    if (inner !== 0 && isOpen && !isBomb && !isFlag) innerLocal = inner;
+
     return (
       <button
         className={classCell}
         onClick={this.click}
-        onContextMenu={this.clickContextMenu}
+        onContextMenu={this.clickContext}
         id={this.props.id}
       >
-        {inner}
+        {innerLocal}
       </button>
     );
-  }
+  };
 
   render() {
-    return (
-      <td>
-        { this.generateCell() }
-      </td>
-    );
+    return <td> {this.generateCell()} </td>;
   }
 }
 
-export default Cell;
+Cells.propTypes = {
+  id: PropTypes.string,
+  inner: PropTypes.number,
+  isBomb: PropTypes.bool,
+  isFlag: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  openCell: PropTypes.func,
+  setFlag: PropTypes.func
+};

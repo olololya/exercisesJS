@@ -1,8 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import GameApp from './Components/GameApp';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import './stylesheet/main.scss';
+import App from './Components/App';
+import rootReducer from './reducers/rootReducer';
 
-ReactDOM.render(<GameApp />, document.getElementById('app'));
+const store = createStore(rootReducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+);

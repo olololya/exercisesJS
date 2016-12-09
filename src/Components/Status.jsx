@@ -1,29 +1,21 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
-class Status extends Component {
+const Status = props => (
+  <div className="status-container">
+    <div>
+      <p>NumFlags:</p>
+      {props.numFlags}
+    </div>
+    <div>
+      <p>Status:</p>
+      {props.status}
+    </div>
+  </div>
+);
 
-  static propTypes = {
-    numFlags: PropTypes.number,
-    statusGame: PropTypes.string
-  };
-
-  static defaultProps = {
-    numFlags: 0 };
-
-  render() {
-    return (
-      <div className="status-container">
-        <div>
-          <p>NumFlags:</p>
-          {this.props.numFlags}
-        </div>
-        <div>
-          <p>Status:</p>
-          {this.props.statusGame}
-        </div>
-      </div>
-    );
-  }
-}
+Status.propTypes = {
+  numFlags: PropTypes.number,
+  status: PropTypes.string
+};
 
 export default Status;
