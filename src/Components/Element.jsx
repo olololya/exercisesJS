@@ -8,11 +8,19 @@ const PropContainer = (props) => {
 };
 
 const FavIcon = (props) => {
+  if (props.faves === null) return null;
   const onclick = () => props.click(props.elem);
 
   if (props.faves) return <button onClick={onclick} style={{ color: 'gold' }}>&#9733;</button>;
 
   return <button onClick={onclick}>&#9734;</button>;
+};
+
+const DelButton = (props) => {
+  if (props.faves !== null) return null;
+  const onclick = () => props.click(props.elem);
+
+  return <button onClick={onclick} style={{ color: 'red' }}>&#10006;</button>;
 };
 
 const Element = props => (
@@ -24,6 +32,11 @@ const Element = props => (
       <div className="title">
         <h3>{props.info.title}</h3>
         <FavIcon
+          elem={props.info}
+          click={props.click}
+          faves={props.faves}
+        />
+        <DelButton
           elem={props.info}
           click={props.click}
           faves={props.faves}

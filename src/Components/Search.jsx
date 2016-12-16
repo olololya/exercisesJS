@@ -65,7 +65,7 @@ class Search extends Component {
     return (
       <div className="search-container">
         <SearchForm submitForm={this.getResult} />
-        <div className="search-result">
+        <div className="result">
           {this.showResult()}
         </div>
       </div>

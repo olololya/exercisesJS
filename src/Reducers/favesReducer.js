@@ -1,5 +1,6 @@
 import { typesFaves } from '../Constants';
 
+
 const initialState = {
   faves: []
 };
@@ -15,7 +16,7 @@ const favesReducer = (state = initialState, action) => {
       };
     case typesFaves.DELETE_ITEM: {
       const arr = state.faves;
-      arr.splice(action.payload);
+      arr.splice(action.payload, 1);
       return {
         faves: arr
       };
@@ -25,4 +26,3 @@ const favesReducer = (state = initialState, action) => {
 };
 
 export default favesReducer;
-
