@@ -1,0 +1,16 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.index {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+
+  .page {
+    flex-grow: 1;
+  }
+}
