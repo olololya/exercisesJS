@@ -7,20 +7,25 @@ const PropContainer = (props) => {
   return null;
 };
 
-const FavIcon = (props) => {
-  if (props.faves === null) return null;
+const Icon = (props) => {
   const onclick = () => props.click(props.elem);
-
-  if (props.faves) return <button onClick={onclick} style={{ color: 'gold' }}>&#9733;</button>;
-
-  return <button onClick={onclick}>&#9734;</button>;
-};
-
-const DelButton = (props) => {
-  if (props.faves !== null) return null;
-  const onclick = () => props.click(props.elem);
-
-  return <button onClick={onclick} style={{ color: 'red' }}>&#10006;</button>;
+  let style = {};
+  let text = '';
+  switch (props.path) {
+    case 'search':
+    case 'detail':
+      if (props.faves) {
+        style = { color: 'gold' };
+        text = '\u2605';
+      } else text = '\u2606';
+      break;
+    case 'faves':
+      style = { color: 'red' };
+      text = '\u2716';
+      break;
+    default: break;
+  }
+  return <button onClick={onclick} style={style}>{text}</button>;
 };
 
 const Element = props => (
@@ -31,12 +36,8 @@ const Element = props => (
       <span>{props.info.updated_in_days_formatted}</span><br />
       <div className="title">
         <h3>{props.info.title}</h3>
-        <FavIcon
-          elem={props.info}
-          click={props.click}
-          faves={props.faves}
-        />
-        <DelButton
+        <Icon
+          path={props.route.path}
           elem={props.info}
           click={props.click}
           faves={props.faves}

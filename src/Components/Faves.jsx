@@ -27,6 +27,7 @@ class Faves extends Component {
               info={elem}
               faves={null}
               click={this.onClick}
+              route={this.props.route}
             />
           ))}
         </div>

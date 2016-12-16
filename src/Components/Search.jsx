@@ -53,6 +53,7 @@ class Search extends Component {
               info={elem}
               faves={this.isFaves(elem)}
               click={this.onClickFaves}
+              route={this.props.route}
             />
           ))}
         </div>
