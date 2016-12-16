@@ -9,8 +9,8 @@ import '../stylesheet/search.scss';
 
 class Search extends Component {
 
-  onClickFaves = (obj) => {
-    if (this.isFaves(obj)) this.props.actionsFaves.deleteItem(this.searchObject(obj));
+  onClickFaves = (obj, id) => {
+    if (this.isFaves(obj)) this.props.actionsFaves.deleteItem(id);
     else this.props.actionsFaves.pushItem(obj);
   };
 
@@ -25,19 +25,13 @@ class Search extends Component {
       });
   };
 
-  searchObject = (obj) => {
+  isFaves = (obj) => {
     const { faves } = this.props.favesState;
     const objJson = JSON.stringify(obj);
     for (let i = 0; i < faves.length; i += 1) {
       const elemJson = JSON.stringify(faves[i]);
-      if (elemJson === objJson) return i;
+      if (elemJson === objJson) return true;
     }
-    return null;
-  };
-
-  isFaves = (obj) => {
-    const i = this.searchObject(obj);
-    if (i !== null) return true;
     return false;
   };
 
@@ -50,10 +44,13 @@ class Search extends Component {
           {list.map((elem, index) => (
             <Element
               key={index}
+              id={index}
               info={elem}
               faves={this.isFaves(elem)}
               click={this.onClickFaves}
               route={this.props.route}
+              router={this.props.router}
+              type={'star'}
             />
           ))}
         </div>

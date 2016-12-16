@@ -6,7 +6,7 @@ import Element from './Element';
 
 class Faves extends Component {
 
-  onClick = obj => this.props.actionsFaves.deleteItem(this.searchObject(obj));
+  onClick = id => this.props.actionsFaves.deleteItem(id);
 
   getElements = () => {
     if (this.props.favesState.faves.length !== 0) {
@@ -28,20 +28,12 @@ class Faves extends Component {
               faves={null}
               click={this.onClick}
               route={this.props.route}
+              id={index}
+              type={'cross'}
             />
           ))}
         </div>
       );
-    }
-    return null;
-  };
-
-  searchObject = (obj) => {
-    const { faves } = this.props.favesState;
-    const objJson = JSON.stringify(obj);
-    for (let i = 0; i < faves.length; i += 1) {
-      const elemJson = JSON.stringify(faves[i]);
-      if (elemJson === objJson) return i;
     }
     return null;
   };
