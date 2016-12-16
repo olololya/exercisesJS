@@ -7,12 +7,28 @@ const PropContainer = (props) => {
   return null;
 };
 
+const FavIcon = (props) => {
+  const onclick = () => props.click(props.elem);
+
+  if (props.faves) return <button onClick={onclick} style={{ color: 'gold' }}>&#9733;</button>;
+
+  return <button onClick={onclick}>&#9734;</button>;
+};
+
 const Element = props => (
   <div className="element-container">
     <img src={props.info.thumb_url} alt={props.info.title} />
+
     <div className="info">
       <span>{props.info.updated_in_days_formatted}</span><br />
-      <h3>{props.info.title}</h3><br />
+      <div className="title">
+        <h3>{props.info.title}</h3>
+        <FavIcon
+          elem={props.info}
+          click={props.click}
+          faves={props.faves}
+        />
+      </div>
 
       <div>
         <PropContainer classN="price" num={props.info.price_formatted} />

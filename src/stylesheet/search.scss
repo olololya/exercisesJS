@@ -68,10 +68,28 @@
         flex: 1 auto;
         margin-left: 10px;
 
-        h3 {
-          display: inline-block;
-          margin: 0 0 10px 0;
-          cursor: auto;
+        .title {
+
+          h3 {
+            display: inline-block;
+            margin: 0 0 10px 0;
+            cursor: auto;
+          }
+
+          button {
+            margin-left: 10px;
+            background-color: transparent;
+            border: none;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all .1s linear;
+
+            &:hover {
+              transform: scale(1.5, 1.5);
+            }
+
+          }
         }
 
         span {
