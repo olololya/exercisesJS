@@ -2,7 +2,7 @@ import React from 'react';
 
 const Icon = (props) => {
   const onclick = () => {
-    props.click(props.elem, props.id);
+    props.click(props.elem);
   };
 
   let style = {};

@@ -9,20 +9,27 @@ import '../stylesheet/search.scss';
 
 class Search extends Component {
 
-  onClickFaves = (obj, id) => {
-    if (this.isFaves(obj)) this.props.actionsFaves.deleteItem(id);
-    else this.props.actionsFaves.pushItem(obj);
+  onClickFaves = (obj) => {
+    if (this.isFaves(obj)) {
+      const id = this.searchElem(obj);
+      this.props.actionsFaves.deleteItem(id);
+    } else this.props.actionsFaves.pushItem(obj);
   };
 
   getResult = value => this.props.actionsList.fetchItems(value);
 
-  isFaves = (obj) => {
+  searchElem = (obj) => {
     const { faves } = this.props.favesState;
     const objJson = JSON.stringify(obj);
     for (let i = 0; i < faves.length; i += 1) {
       const elemJson = JSON.stringify(faves[i]);
-      if (elemJson === objJson) return true;
+      if (elemJson === objJson) return i;
     }
+    return -1;
+  };
+
+  isFaves = (obj) => {
+    if (this.searchElem(obj) !== -1) return true;
     return false;
   };
 

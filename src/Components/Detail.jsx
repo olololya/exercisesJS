@@ -9,10 +9,12 @@ import '../stylesheet/detail.scss';
 
 class Detail extends Component {
 
-  onClickFaves = (obj, id) => {
+  onClickFaves = (obj) => {
     if (this.props.params.array === 'faves') return;
-    if (this.isFaves(obj)) this.props.actionsFaves.deleteItem(id);
-    else this.props.actionsFaves.pushItem(obj);
+    if (this.isFaves(obj)) {
+      const id = this.searchElem(obj);
+      this.props.actionsFaves.deleteItem(id);
+    } else this.props.actionsFaves.pushItem(obj);
   };
 
   getElement = () => {
@@ -47,13 +49,18 @@ class Detail extends Component {
     );
   };
 
-  isFaves = (obj) => {
+  searchElem = (obj) => {
     const { faves } = this.props.favesState;
     const objJson = JSON.stringify(obj);
     for (let i = 0; i < faves.length; i += 1) {
       const elemJson = JSON.stringify(faves[i]);
-      if (elemJson === objJson) return true;
+      if (elemJson === objJson) return i;
     }
+    return -1;
+  };
+
+  isFaves = (obj) => {
+    if (this.searchElem(obj) !== -1) return true;
     return false;
   };
 
