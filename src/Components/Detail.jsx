@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Actions/actions';
 import Icon from './Icon';
-// import Element from './Element';
-// import '../stylesheet/detail.scss';
+import PropContainer from './PropContainer';
+import '../stylesheet/detail.scss';
 
 class Detail extends Component {
 
@@ -22,19 +22,38 @@ class Detail extends Component {
     return (
       <div className="detail-container">
         <div className="tit">
+          <span>{info.updated_in_days_formatted}</span><br />
           <h3>{info.title}</h3>
           <Icon
             elem={info}
             click={this.onClickFaves}
-            faves={faves}
+            faves={this.isFaves(info)}
             id={id}
             type="star"
           />
-          <span>{info.updated_in_days_formatted}</span><br />
         </div>
-        <img src={list[id].img_url} alt="asd" />
+        <div className="info">
+          <img src={info.img_url} alt="asd" />
+          <div>
+            <PropContainer classN="price" num={info.price_formatted} />
+            <PropContainer classN="floor" num={info.floor} />
+            <PropContainer classN="bedroom" num={info.bedroom_number} />
+            <PropContainer classN="bathroom" num={info.bathroom_number} />
+          </div>
+        </div>
+        <p>{info.summary}</p>
       </div>
     );
+  };
+
+  isFaves = (obj) => {
+    const { faves } = this.props.favesState;
+    const objJson = JSON.stringify(obj);
+    for (let i = 0; i < faves.length; i += 1) {
+      const elemJson = JSON.stringify(faves[i]);
+      if (elemJson === objJson) return true;
+    }
+    return false;
   };
 
   render() {

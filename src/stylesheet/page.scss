@@ -30,7 +30,7 @@
   .result {
     border-radius: 10px;
     flex: 1 auto;
-    min-width: 500px;
+    min-width: 600px;
     margin-bottom: 10px;
 
     p {
@@ -118,33 +118,32 @@
           margin-bottom: 5px;
           word-wrap: break-word;
         }
-
-        .prop-container {
-          background-color: #e2e2e2;
-          color: #676767;
-          padding: 5px 10px;
-          display: inline-block;
-          margin-right: 10px;
-          border-radius: 3px;
-          vertical-align: middle;
-          cursor: auto;
-          text-transform: capitalize;
-        }
-
-        .price {
-          background-color: #c3e4b8;
-        }
-        .floor {
-          background-color: #cae9eb;
-        }
-        .bedroom {
-          background-color: #f9d3e3;
-        }
-        .bathroom {
-          background-color: #efd0e9;
-        }
       }
     }
   }
 
+  .prop-container {
+    background-color: #e2e2e2;
+    color: #676767;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 3px;
+    vertical-align: middle;
+    cursor: auto;
+    text-transform: capitalize;
+  }
+
+  .price {
+    background-color: #c3e4b8;
+  }
+  .floor {
+    background-color: #cae9eb;
+  }
+  .bedroom {
+    background-color: #f9d3e3;
+  }
+  .bathroom {
+    background-color: #efd0e9;
+  }
 }

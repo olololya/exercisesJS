@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Icon from './Icon';
-
-const PropContainer = (props) => {
-  const { classN, num } = props;
-  if (classN === 'price') return <div className={`prop-container ${classN}`}>{num}</div>;
-  else if (num) return <div className={`prop-container ${classN}`}>{classN}: {num}</div>;
-  return null;
-};
+import PropContainer from './PropContainer';
 
 class Element extends Component {
 

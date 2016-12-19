@@ -4,14 +4,14 @@
   flex: auto;
   align-items: center;
   margin-bottom: 10px;
-  min-width: 500px;
 
   .tit {
-    min-width: 500px;
+    min-width: 400px;
+    margin-top: 15px;
 
-    .h3 {
+    h3 {
       display: inline-block;
-      margin: 0 0 10px 0;
+      margin: 0 0 15px 0;
     }
 
     button {
@@ -34,8 +34,27 @@
     color: #a6a6a6;
     text-transform: lowercase;
     font-size: 0.8em;
-    margin-bottom: 5px;
     word-wrap: break-word;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: row;
+
+
+    img {
+      border: 1px solid #e3e3e3;
+    }
+
+    div {
+      margin: 0 0 0 5px;
+      display: flex;
+      flex-direction: column;
+
+      .prop-container {
+        margin-bottom: 5px;
+      }
+    }
   }
 }
 
