@@ -10,12 +10,13 @@ import '../stylesheet/detail.scss';
 class Detail extends Component {
 
   onClickFaves = (obj, id) => {
+    if (this.props.params.array === 'faves') return;
     if (this.isFaves(obj)) this.props.actionsFaves.deleteItem(id);
     else this.props.actionsFaves.pushItem(obj);
   };
 
   getElement = () => {
-    const { faves } = this.props.favesState.faves;
+    const { faves } = this.props.favesState;
     const { array, id } = this.props.params;
     const list = (array === 'faves') ? faves : this.props.listState.list;
     const info = list[id];
