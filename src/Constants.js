@@ -1,5 +1,8 @@
 export const typesList = {
-  PUSH_ITEMS: 'PUSH_ITEMS'
+  PUSH_ITEMS: 'PUSH_ITEMS',
+  FETCH_ITEMS: 'FETCH_ITEMS',
+  FETCH_ITEMS_SUCCESS: 'FETCH_ITEMS_SUCCESS',
+  FETCH_ITEMS_FAILURE: 'FETCH_ITEMS_FAILURE'
 };
 
 export const typesFaves = {

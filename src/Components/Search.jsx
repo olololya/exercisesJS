@@ -14,16 +14,7 @@ class Search extends Component {
     else this.props.actionsFaves.pushItem(obj);
   };
 
-  getResult = (value) => {
-    const url = 'http://api.nestoria.co.uk/';
-    const request = `${url}api?encoding=json&pretty=1&page=1&action=search_listings&country=uk&listing_type=buy&place_name=${value}`;
-    fetch(request)
-      .then(resp => resp.json())
-      .then(resp => this.props.actionsList.pushItems(resp.response.listings))
-      .catch((error) => {
-        throw new Error(error);
-      });
-  };
+  getResult = value => this.props.actionsList.fetchItems(value);
 
   isFaves = (obj) => {
     const { faves } = this.props.favesState;
@@ -36,9 +27,8 @@ class Search extends Component {
   };
 
   showResult = () => {
-    const { list } = this.props.listState;
-    const length = list.length;
-    if (length !== 0) {
+    const { list, isFound } = this.props.listState;
+    if (isFound) {
       return (
         <div>
           {list.map((elem, index) => (
@@ -56,7 +46,15 @@ class Search extends Component {
         </div>
       );
     }
-    return null;
+
+    let message = '';
+    if (isFound === null) message = 'Error in request';
+    else message = 'Not results';
+    return (
+      <p className="message">
+        {message}
+      </p>
+    );
   };
 
   render() {
