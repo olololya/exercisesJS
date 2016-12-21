@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../Components/Header';
+import Header from './Header';
 import '../stylesheet/page.scss';
 
-const Index = props => (
+const App = props => (
   <div className="index">
     <Header />
     <div className="page">
@@ -11,4 +11,4 @@ const Index = props => (
   </div>
 );
 
-export default Index;
+export default App;

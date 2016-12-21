@@ -2,40 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Actions/actions';
-import Element from './Element';
+import Element from '../Components/Element';
 
 class Faves extends Component {
 
-  onClick = id => this.props.actionsFaves.deleteItem(id);
+  onClick = obj => this.props.actionsFaves.deleteItem(this.props.faves.favesList.indexOf(obj));
 
   getElements = () => {
-    if (this.props.favesState.faves.length !== 0) {
-      return this.showResult();
-    }
-    return <p>You dont have faves.</p>;
-  };
-
-  showResult = () => {
-    const { faves } = this.props.favesState;
-    const length = faves.length;
-    if (length !== 0) {
+    const { favesList } = this.props.faves;
+    if (favesList.length !== 0) {
       return (
         <div>
-          {faves.map((elem, index) => (
+          {favesList.map((elem, index) => (
             <Element
-              key={index}
+              key={elem.id}
               info={elem}
               faves={null}
               click={this.onClick}
               route={this.props.route}
-              id={index}
               type={'cross'}
             />
           ))}
         </div>
       );
     }
-    return null;
+    return <p>You dont have faves.</p>;
   };
 
   render() {
@@ -50,7 +41,7 @@ class Faves extends Component {
   }
 }
 
-const mapStateToProps = state => ({ favesState: state.favesReducer });
+const mapStateToProps = state => ({ faves: state.faves });
 
 const mapDispatchToProps = dispatch => ({
   actionsFaves: bindActionCreators(actions.faves, dispatch)

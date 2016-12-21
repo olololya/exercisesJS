@@ -2,10 +2,10 @@ import { typesList } from '../Constants';
 
 const initialState = {
   list: [],
-  isFound: true
+  isFound: undefined
 };
 
-const listReducer = (state = initialState, action) => {
+const list = (state = initialState, action) => {
   switch (action.type) {
     case typesList.FETCH_ITEMS_SUCCESS:
       return {
@@ -17,8 +17,10 @@ const listReducer = (state = initialState, action) => {
         list: [],
         isFound: null
       };
+    case typesList.RESET:
+      return initialState;
     default: return state;
   }
 };
 
-export default listReducer;
+export default list;

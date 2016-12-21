@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 
-const NavLink = props => (
+export const NavLink = props => (
   <Link {...props} className="link" activeClassName="active-link" />
 );
 
-export default NavLink;
+export const NavIndexLink = props => (
+  <IndexLink {...props} className="link" activeClassName="active-link" />
+);

@@ -1,18 +1,12 @@
-import { typesList, typesFaves } from '../Constants';
+import { typesList, typesFaves, typesPage } from '../Constants';
 
 const listActions = {
-  pushItems: list => ({
-    type: typesList.PUSH_ITEMS,
-    payload: list
-  }),
-  fetchItems: placeName => ({
+  fetchItems: (placeName, page = 1) => ({
     type: typesList.FETCH_ITEMS,
-    meta: {
-      type: 'api',
-      url: `http://api.nestoria.co.uk/api?encoding=json&pretty=1&page=1&action=search_listings&country=uk&listing_type=buy&place_name=${placeName}`,
-      method: 'GET'
-    }
-  })
+    url: `http://api.nestoria.co.uk/api?encoding=json&pretty=1&page=${page}&action=search_listings&country=uk&listing_type=buy&place_name=${placeName}`,
+    meta: { method: 'GET' }
+  }),
+  reset: () => ({ type: typesList.RESET })
 };
 
 const favesActions = {
@@ -20,9 +14,18 @@ const favesActions = {
   deleteItem: id => ({ type: typesFaves.DELETE_ITEM, payload: id })
 };
 
+const pageActions = {
+  setTotal: total => ({ type: typesPage.SET_TOTAL, payload: total }),
+  resetPage: () => ({ type: typesPage.RESET_PAGE }),
+  goNextPage: () => ({ type: typesPage.GO_NEXT }),
+  goPrevPage: () => ({ type: typesPage.GO_PREV }),
+  goSpecialPage: page => ({ type: typesPage.GO_SPECIAL, payload: page })
+};
+
 const actions = {
   list: listActions,
-  faves: favesActions
+  faves: favesActions,
+  page: pageActions
 };
 
 export default actions;

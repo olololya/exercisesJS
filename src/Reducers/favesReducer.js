@@ -1,28 +1,27 @@
 import { typesFaves } from '../Constants';
 
-
 const initialState = {
-  faves: []
+  favesList: []
 };
 
-const favesReducer = (state = initialState, action) => {
+const faves = (state = initialState, action) => {
   switch (action.type) {
     case typesFaves.PUSH_ITEM:
       return {
-        faves: [
-          ...state.faves,
+        favesList: [
+          ...state.favesList,
           action.payload
         ]
       };
     case typesFaves.DELETE_ITEM: {
-      const arr = state.faves;
+      const arr = state.favesList;
       arr.splice(action.payload, 1);
       return {
-        faves: arr
+        favesList: arr
       };
     }
     default: return state;
   }
 };
 
-export default favesReducer;
+export default faves;

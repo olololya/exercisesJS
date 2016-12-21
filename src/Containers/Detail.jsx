@@ -3,25 +3,24 @@ import 'whatwg-fetch';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Actions/actions';
-import Icon from './Icon';
-import PropContainer from './PropContainer';
+import Icon from '../Components/Icon';
+import PropContainer from '../Components/PropContainer';
 import '../stylesheet/detail.scss';
 
 class Detail extends Component {
 
   onClickFaves = (obj) => {
-    if (this.props.params.array === 'faves') return;
-    if (this.isFaves(obj)) {
-      const id = this.searchElem(obj);
-      this.props.actionsFaves.deleteItem(id);
+    if (this.isFave(obj)) {
+      this.props.actionsFaves.deleteItem(this.props.favesState.favesList.indexOf(obj));
     } else this.props.actionsFaves.pushItem(obj);
   };
 
   getElement = () => {
-    const { faves } = this.props.favesState;
+    const { favesList } = this.props.favesState;
     const { array, id } = this.props.params;
-    const list = (array === 'faves') ? faves : this.props.listState.list;
-    const info = list[id];
+    const list = (array === 'faves') ? favesList : this.props.listState.list;
+    const idElem = this.searchElem(parseInt(id, 10), list);
+    const info = list[idElem];
     return (
       <div className="detail-container">
         <div className="tit">
@@ -29,8 +28,8 @@ class Detail extends Component {
           <h3>{info.title}</h3>
           <Icon
             elem={info}
-            click={this.onClickFaves}
-            faves={this.isFaves(info)}
+            click={(array === 'faves') ? () => {} : this.onClickFaves}
+            isFave={this.isFave(info)}
             id={id}
             type="star"
           />
@@ -38,7 +37,7 @@ class Detail extends Component {
         <div className="info">
           <img src={info.img_url} alt="asd" />
           <div>
-            <PropContainer classN="price" num={info.price_formatted} />
+            <PropContainer classN="price" price={info.price_formatted} />
             <PropContainer classN="floor" num={info.floor} />
             <PropContainer classN="bedroom" num={info.bedroom_number} />
             <PropContainer classN="bathroom" num={info.bathroom_number} />
@@ -49,18 +48,28 @@ class Detail extends Component {
     );
   };
 
-  searchElem = (obj) => {
-    const { faves } = this.props.favesState;
-    const objJson = JSON.stringify(obj);
-    for (let i = 0; i < faves.length; i += 1) {
-      const elemJson = JSON.stringify(faves[i]);
-      if (elemJson === objJson) return i;
+  searchElem = (idFromParam, list) => {
+    for (let i = 0; i < list.length; i += 1) {
+      if (list[i].id === idFromParam) return i;
     }
     return -1;
   };
 
-  isFaves = (obj) => {
-    if (this.searchElem(obj) !== -1) return true;
+  isFave = (obj) => {
+    const { favesList } = this.props.favesState;
+    const keysObj = Object.keys(obj);
+    let flag;
+    for (let i = 0; i < favesList.length; i += 1) {
+      const keysObjFaves = Object.keys(favesList[i]);
+      flag = true;
+      for (let j = 0; j < keysObj.length; j += 1) {
+        const key = keysObj[j];
+        if (key !== 'id') {
+          if (obj[key] !== favesList[i][key]) flag = false;
+        }
+      }
+      if (flag) return true;
+    }
     return false;
   };
 
@@ -74,8 +83,8 @@ class Detail extends Component {
 }
 
 const mapStateToProps = state => ({
-  listState: state.listReducer,
-  favesState: state.favesReducer
+  listState: state.list,
+  favesState: state.faves
 });
 
 const mapDispatchToProps = dispatch => ({

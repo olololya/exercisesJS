@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const Icon = (props) => {
   const onclick = () => {
@@ -9,7 +9,7 @@ const Icon = (props) => {
   let text = '';
   switch (props.type) {
     case 'star':
-      if (props.faves) {
+      if (props.isFave) {
         style = { color: 'gold' };
         text = '\u2605';
       } else text = '\u2606';
@@ -21,6 +21,13 @@ const Icon = (props) => {
     default: break;
   }
   return <button onClick={onclick} style={style}>{text}</button>;
+};
+
+Icon.propTypes = {
+  click: PropTypes.func,
+  type: PropTypes.string,
+  elem: PropTypes.object,
+  isFave: PropTypes.bool
 };
 
 export default Icon;

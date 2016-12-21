@@ -1,17 +1,17 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
-import Home from '../Components/Home';
-import Index from './Index';
-import Faves from '../Components/Faves';
-import Search from '../Components/Search';
-import Detail from '../Components/Detail';
+import Home from './Home';
+import App from './App';
+import Faves from '../Containers/Faves';
+import Search from '../Containers/Search';
+import Detail from '../Containers/Detail';
 
-const App = () => (
+
+const Routes = () => (
   <Router history={hashHistory}>
-    <Route path="/" component={Index}>
+    <Route path="/" component={App}>
       <IndexRoute component={Home} />
-      <Route path="home" component={Home} />
       <Route path="faves" component={Faves} />
       <Route path="search" component={Search} />
       <Route path="detail/:array-:id" component={Detail} />
@@ -19,4 +19,4 @@ const App = () => (
   </Router>
 );
 
-export default App;
+export default Routes;

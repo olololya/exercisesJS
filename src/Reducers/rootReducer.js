@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import listReducer from './listReducer';
-import favesReducer from './favesReducer';
+import list from './listReducer';
+import faves from './favesReducer';
+import page from './pageReducer';
 
 const rootReducer = combineReducers({
-  listReducer,
-  favesReducer
+  list,
+  faves,
+  page
 });
 
 export default rootReducer;

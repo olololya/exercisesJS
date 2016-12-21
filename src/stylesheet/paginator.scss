@@ -1,0 +1,25 @@
+.paginator {
+  text-align: center;
+  margin-top: 20px;
+
+  .pageControl {
+    margin: 0 5px;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all .3s linear;
+
+    &:hover {
+      background-color: #eeeeee;
+    }
+  }
+
+  label {
+    margin: 0 5px 0 20px;
+  }
+
+  input {
+    width: 50px;
+  }
+}
