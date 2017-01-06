@@ -1,0 +1,46 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.index {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+
+  .page {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+
+    .search-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100px;
+      vertical-align: middle;
+
+      input {
+        width: 300px;
+      }
+
+      button {
+        min-width: 100px;
+        margin: 10px;
+      }
+
+    }
+
+    .search-result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+    }
+  }
+}
